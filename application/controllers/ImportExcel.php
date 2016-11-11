@@ -13,41 +13,41 @@ class ImportExcel extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-//        $this->load->library(array('PHPExcel', 'PHPExcel/IOFactory'));
-
+        $this->load->library(array('PHPExcel', 'PHPExcel/IOFactory'));
     }
 
     public function index() {
-        $this->load->view('import_excel');
-    }
+        $data['title'] = 'Upload Excel';
+        if($this->input->post() ){
+            if (isset($_FILES['filename']['size']) && ($_FILES['filename']['size'] > 0)) {
+                $config['upload_path'] = './assets/upload/';
+                $config['allowed_types'] = 'xls|xlsx|csv';
+                $config['max_size'] = '2048';
+                $config['encrypt_name'] = true;
 
-    public function upload() {
-        if (isset($_FILES['filename']['size']) && ($_FILES['filename']['size'] > 0)) {
-            $config['upload_path'] = './assets/';
-            $config['allowed_type'] = 'jpg|jpeg|gif|png';
-            $config['max_size'] = '2048';
-            $config['encrypt_name'] = true;
-
-            $this->load->library('upload');
-            $this->upload->initialize($config);
-            if ($this->upload->do_upload('filename') === false) {
-                echo "s";
-                echo "terjadi kesalahan, upload gagal";
-            } else {
-                echo "e";
-                $media = $this->upload->data();
-                var_dump($media);
-                $this->load->view('import_success', $media);
+                $this->load->library('upload',$config);
+                if ($this->upload->do_upload('filename') === false) {
+                    $data['status'] = false;
+                    $data['message'] = $this->upload->display_errors();
+                }else {
+                    $import = $this->doImportExcel($this->upload->data());
+                    $data['status'] = true;
+                    $data['success_imported'] = $import['success_imported'];
+                    $data['fail_imported'] = $import['fail_imported'];
+                    $data['file'] = $this->upload->data();
+                }
             }
         }
-        echo "A";
-
-
+        $this->load->view('import_excel',$data);
     }
-    /*private function do_import_excel() {
+
+    /**
+     * @param array $inputFileName
+     */
+    private function doImportExcel(array $inputFileName) {
 
         try {
-            $inputFileType  = IOFactory::identify($inputFileName);
+            $inputFileType  = IOFactory::identify($inputFileName['full_path']);
             $objReader      = IOFactory::createReader($inputFileType);
             $objPHPExcel    = $objReader->load($inputFileName);
         } catch (Exception $e) {
@@ -58,6 +58,8 @@ class ImportExcel extends CI_Controller {
         $higestRow     = $sheet->getHighestRow();
         $higestColumn  = $sheet->getHighestColumn();
 
+        $i = 1;
+        $j = 1;
         for ($row = 2; $row <= $higestRow; $row++) {
             $rowData =  $sheet->rangeToArray( //Read a row of data into an array
                 'A' . $row . ':' . $higestColumn . $row
@@ -74,14 +76,17 @@ class ImportExcel extends CI_Controller {
                 "jk"                => $rowData[0][6],
                 "keterangan"        => $rowData[0][2]
             );
-            //sesuaikan nama tabel
-            $insert = $this->db->insert("t_pemilih", $data);
-            delete_files($media['file_path']);
+
+            $this->db->insert("t_pemilih", $data);
+
+            $this->db->affected_rows() === true ? $i++ : $j++;
         }
-     redirect('ImportExcel/');
-    }*/
 
-
+        return [
+            'success_imported' => $i,
+            'fail_imported' => $j
+        ];
+    }
 }
 
 
