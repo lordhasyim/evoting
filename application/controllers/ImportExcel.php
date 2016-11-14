@@ -7,16 +7,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Time: 10.41
  */
 
-class ImportExcel extends CI_Controller {
+class ImportExcel extends CI_Controller
+{
 
-
+    /**
+     * @var int $section_id
+     */
+    private $section_id;
 
     function __construct() {
         parent::__construct();
         $this->load->library(array('PHPExcel', 'PHPExcel/IOFactory'));
     }
 
-    public function index() {
+    public function index($section_id) {
+        if ($this->checkSectionAuthority($section_id) === false)
+            redirect('admin/section');
+
         $data['title'] = 'Upload Excel';
         if($this->input->post() ){
             if (isset($_FILES['filename']['size']) && ($_FILES['filename']['size'] > 0)) {
@@ -30,36 +37,51 @@ class ImportExcel extends CI_Controller {
                     $data['status'] = false;
                     $data['message'] = $this->upload->display_errors();
                 }else {
-                    $import = $this->doImportExcel($this->upload->data());
+                    $media = $this->upload->data();
+                    $inputFileName = './assets/upload/'.$media['file_name'];
+                    $import = $this->doImportExcel($inputFileName);
                     $data['status'] = true;
                     $data['success_imported'] = $import['success_imported'];
                     $data['fail_imported'] = $import['fail_imported'];
-                    $data['file'] = $this->upload->data();
+                    $data['file'] = $media;
                 }
             }
+            var_dump($data);
         }
         $this->load->view('import_excel',$data);
     }
 
+    private function checkSectionAuthority($id) {
+        if ($this->db->get_where('section', [
+                'section_id' => $id,
+//                'user_id' => $this->session->userdata('user_id')
+            ])->num_rows() < 1)
+            return false;
+
+        $this->section_id = $id;
+        return true;
+    }
+
     /**
-     * @param array $inputFileName
+     * @param $inputFileName
+     * @return array
      */
-    private function doImportExcel(array $inputFileName) {
+    private function doImportExcel($inputFileName) {
 
         try {
-            $inputFileType  = IOFactory::identify($inputFileName['full_path']);
+            $inputFileType  = IOFactory::identify($inputFileName);
             $objReader      = IOFactory::createReader($inputFileType);
             $objPHPExcel    = $objReader->load($inputFileName);
         } catch (Exception $e) {
-            die('Terjadi kesalahan "'.pathinfo($inputFileName,PATHINFO_BASENAME). '": '. $e->getMessage());
+            die('Terjadi kesalahan '.pathinfo($inputFileName,PATHINFO_BASENAME). '": '. $e->getMessage());
         }
 
         $sheet         = $objPHPExcel->getSheet(0);
         $higestRow     = $sheet->getHighestRow();
         $higestColumn  = $sheet->getHighestColumn();
 
-        $i = 1;
-        $j = 1;
+        $i = 0;
+        $j = 0;
         for ($row = 2; $row <= $higestRow; $row++) {
             $rowData =  $sheet->rangeToArray( //Read a row of data into an array
                 'A' . $row . ':' . $higestColumn . $row
@@ -67,19 +89,39 @@ class ImportExcel extends CI_Controller {
                 ,TRUE
                 ,FALSE
             );
-            //sesuaikan nama kolom tabel di database
-            $data = array(
-                "identitas_pemilh"  => $rowData[0][1],
-                "nama_pemilih"      => $rowData[0][3],
-                "tempat_pemilih"    => $rowData[0][4],
-                "tgl_lahir"         => $rowData[0][5],
-                "jk"                => $rowData[0][6],
-                "keterangan"        => $rowData[0][2]
-            );
 
-            $this->db->insert("t_pemilih", $data);
+            switch ($rowData[0][6]) {
+                case 'L' :
+                    $gender = 'male';
+                    break;
+                case 'P' :
+                    $gender = 'female';
+                    break;
+                default:
+                    $gender = null;
+                    break;
+            }
 
-            $this->db->affected_rows() === true ? $i++ : $j++;
+            if ($this->db->get_where('voter', [
+                    'section_id' => $this->section_id,
+                    'identity' => $rowData[0][1]
+                ])->num_rows() < 1) {
+                $data = array(
+                    "section_id"  => $this->section_id,
+                    "identity"  => $rowData[0][1],
+                    "name"      => $rowData[0][3],
+                    "gender"    => $gender,
+                    "pob"                => $rowData[0][4],
+                    "dob"        => $rowData[0][5],
+                    "note"        => $rowData[0][8]."/".$rowData[0][2],
+                    "status"        => 'open'
+                );
+
+                $this->db->insert("voter", $data);
+                $i++;
+            } else {
+                $j++;
+            }
         }
 
         return [
