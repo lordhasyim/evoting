@@ -53,4 +53,5 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['admin/upload/excel'] = 'ImportExcel/index';
+$route['admin/upload/excel/(:num)'] = 'ImportExcel/index/$1';
+$route['admin/sections'] = 'Sections/index/$1';
