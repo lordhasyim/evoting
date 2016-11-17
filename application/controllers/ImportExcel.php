@@ -27,7 +27,7 @@ class ImportExcel extends CI_Controller
         $data['title'] = 'Upload Excel';
         if($this->input->post() ){
             if (isset($_FILES['filename']['size']) && ($_FILES['filename']['size'] > 0)) {
-                $config['upload_path'] = './assets/upload/';
+                $config['upload_path'] = './assets/uploads/';
                 $config['allowed_types'] = 'xls|xlsx|csv';
                 $config['max_size'] = '2048';
                 $config['encrypt_name'] = true;
@@ -38,7 +38,7 @@ class ImportExcel extends CI_Controller
                     $data['message'] = $this->upload->display_errors();
                 }else {
                     $media = $this->upload->data();
-                    $inputFileName = './assets/upload/'.$media['file_name'];
+                    $inputFileName = './assets/uploads/'.$media['file_name'];
                     $import = $this->doImportExcel($inputFileName);
                     $data['status'] = true;
                     $data['success_imported'] = $import['success_imported'];
