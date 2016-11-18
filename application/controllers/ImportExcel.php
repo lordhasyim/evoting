@@ -47,7 +47,17 @@ class ImportExcel extends CI_Controller
                 }
             }
         }
+        //template from admin themes
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //candidate index content
         $this->load->view('import_excel',$data);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
     private function checkEventAuthority($id) {

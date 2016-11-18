@@ -41,7 +41,17 @@ class Candidate extends CI_Controller
             ->set_rules('serial_number', 'No Urut','callback_serial_number_check');
         $output = $this->grocery_crud->render();
 
+        //template from admin themes
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //candidate index content
         $this->load->view('candidate/index',$output);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
     function identity_check($identity)

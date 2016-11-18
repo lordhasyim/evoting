@@ -39,7 +39,17 @@ class Section extends CI_Controller
             ->unset_export();
         $output = $this->grocery_crud->render();
 
+        //template from admin themes
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //candidate index content
         $this->load->view('section/index',$output);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
 }

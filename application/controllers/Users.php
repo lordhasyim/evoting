@@ -11,6 +11,9 @@ class Users extends CI_Controller
         {
             redirect('/', 'refresh');
         }
+        $this->is_admin = $this->ion_auth->is_admin();
+        $user = $this->ion_auth->user()->row();
+        $this->logged_in_name = $user->first_name;
     }
 
     public function index()
@@ -25,7 +28,17 @@ class Users extends CI_Controller
             $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
         }
 
+        //template from admin themes
+        // header
+        $this->load->view('admin/themes/header');
+        // nav, top menu
+        $this->load->view('admin/themes/nav');
+        //nav, sidebar
+        $this->load->view('admin/themes/sidebar');
+        //user index content
         $this->load->view('users/index', $this->data);
+
+        $this->load->view('admin/themes/footer');
     }
 
     // create a new user
@@ -129,7 +142,18 @@ class Users extends CI_Controller
                 'value' => $this->form_validation->set_value('password_confirm'),
             );
 
+            //template from admin themes
+            // header
+            $this->load->view('admin/themes/header');
+            // nav, top menu
+            $this->load->view('admin/themes/nav');
+            //nav, sidebar
+            $this->load->view('admin/themes/sidebar');
+            // user create content
             $this->load->view('users/create', $this->data);
+            //footer
+            $this->load->view('admin/themes/footer');
+
         }
     }
 
@@ -209,7 +233,7 @@ class Users extends CI_Controller
                     $this->session->set_flashdata('message', $this->ion_auth->messages() );
                     if ($this->ion_auth->is_admin())
                     {
-                        redirect('auth', 'refresh');
+                        redirect('users', 'refresh');
                     }
                     else
                     {
@@ -223,7 +247,7 @@ class Users extends CI_Controller
                     $this->session->set_flashdata('message', $this->ion_auth->errors() );
                     if ($this->ion_auth->is_admin())
                     {
-                        redirect('auth', 'refresh');
+                        redirect('users', 'refresh');
                     }
                     else
                     {
@@ -281,7 +305,17 @@ class Users extends CI_Controller
             'type' => 'password'
         );
 
+        //template from admin themes
+        // header
+        $this->load->view('admin/themes/header');
+        // nav, top menu
+        $this->load->view('admin/themes/nav');
+        //nav, sidebar
+        $this->load->view('admin/themes/sidebar');
+        // user create content
         $this->load->view('users/edit', $this->data);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
     // activate the user
@@ -307,7 +341,17 @@ class Users extends CI_Controller
             $this->data['csrf'] = $this->_get_csrf_nonce();
             $this->data['user'] = $this->ion_auth->user($id)->row();
 
+            //template from admin themes
+            // header
+            $this->load->view('admin/themes/header');
+            // nav, top menu
+            $this->load->view('admin/themes/nav');
+            //nav, sidebar
+            $this->load->view('admin/themes/sidebar');
+            // user create content
             $this->load->view('users/deactivate', $this->data);
+            //footer
+            $this->load->view('admin/themes/footer');
         }
         else
         {
