@@ -19,7 +19,17 @@ class Groups extends CI_Controller
         //list the users
         $this->data['groups'] = $this->db->get('groups')->result();
 
+        //template from admin themes
+        // header
+        $this->load->view('admin/themes/header');
+        // nav, top menu
+        $this->load->view('admin/themes/nav');
+        //nav, sidebar
+        $this->load->view('admin/themes/sidebar');
+        // groups index content
         $this->load->view('groups/index', $this->data);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
     public function create()
@@ -59,7 +69,17 @@ class Groups extends CI_Controller
                 'value' => $this->form_validation->set_value('description'),
             );
 
+            //template from admin themes
+            // header
+            $this->load->view('admin/themes/header');
+            // nav, top menu
+            $this->load->view('admin/themes/nav');
+            //nav, sidebar
+            $this->load->view('admin/themes/sidebar');
+            //group index content
             $this->load->view('groups/create', $this->data);
+            //footer
+            $this->load->view('admin/themes/footer');
         }
     }
 
@@ -119,7 +139,17 @@ class Groups extends CI_Controller
             'value' => $this->form_validation->set_value('group_description', $group->description),
         );
 
+        //template from admin themes
+        // header
+        $this->load->view('admin/themes/header');
+        // nav, top menu
+        $this->load->view('admin/themes/nav');
+        //nav, sidebar
+        $this->load->view('admin/themes/sidebar');
+        // Groups edit group
         $this->load->view('groups/edit', $this->data);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
 }

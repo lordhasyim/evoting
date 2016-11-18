@@ -42,7 +42,17 @@ class VoterList extends CI_Controller
 
         $output = $this->grocery_crud->render();
 
+        //template from admin
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //Booth index content
         $this->load->view('voter/index',$output);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
     public function checkIn($id)
@@ -60,7 +70,17 @@ class VoterList extends CI_Controller
             ->set('check_in_time', date('Y-m-d h:i:s'))
             ->update('voter');
 
+        //template from admin
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //Booth index content
         $this->load->view('voter/summary',$data);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
 }

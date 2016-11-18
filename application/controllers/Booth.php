@@ -39,7 +39,17 @@ class Booth extends CI_Controller
             ->unset_export();
         $output = $this->grocery_crud->render();
 
+        //template from admin
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //Booth index content
         $this->load->view('booth/index',$output);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
     function encrypt_password_callback($post_array) {
