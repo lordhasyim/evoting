@@ -13,16 +13,16 @@ class ImportExcel extends CI_Controller
     /**
      * @var int $section_id
      */
-    private $section_id;
+    private $event_id;
 
     function __construct() {
         parent::__construct();
         $this->load->library(array('PHPExcel', 'PHPExcel/IOFactory'));
     }
 
-    public function index($section_id) {
-        if ($this->checkSectionAuthority($section_id) === false)
-            redirect('admin/section');
+    public function index() {
+        if ($this->checkEventAuthority($this->config->item('default_event_id')) === false)
+            redirect('/','refresh');
 
         $data['title'] = 'Upload Excel';
         if($this->input->post() ){
@@ -46,19 +46,18 @@ class ImportExcel extends CI_Controller
                     $data['file'] = $media;
                 }
             }
-            var_dump($data);
         }
         $this->load->view('import_excel',$data);
     }
 
-    private function checkSectionAuthority($id) {
-        if ($this->db->get_where('section', [
-                'section_id' => $id,
+    private function checkEventAuthority($id) {
+        if ($this->db->get_where('event', [
+                'event_id' => $id,
 //                'user_id' => $this->session->userdata('user_id')
             ])->num_rows() < 1)
             return false;
 
-        $this->section_id = $id;
+        $this->event_id = $id;
         return true;
     }
 
@@ -103,11 +102,11 @@ class ImportExcel extends CI_Controller
             }
 
             if ($this->db->get_where('voter', [
-                    'section_id' => $this->section_id,
+                    'section_id' => $this->event_id,
                     'identity' => $rowData[0][1]
                 ])->num_rows() < 1) {
                 $data = array(
-                    "section_id"  => $this->section_id,
+                    "event_id"  => $this->event_id,
                     "identity"  => $rowData[0][1],
                     "name"      => $rowData[0][3],
                     "gender"    => $gender,

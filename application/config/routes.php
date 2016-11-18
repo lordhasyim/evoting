@@ -53,7 +53,7 @@ $route['default_controller'] = 'Login/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['admin/upload/excel/(:num)'] = 'ImportExcel/index/$1';
+$route['admin/upload/excel)'] = 'ImportExcel/index';
 $route['login'] = 'Login/index';
 $route['logout'] = 'logout/index';
 $route['dashboard'] = 'Dashboard/index';
