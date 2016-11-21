@@ -8,9 +8,8 @@ class VoterList extends CI_Controller
     {
         parent::__construct();
 
-//        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-//            redirect('/', 'refresh');
-//        }
+        if (!$this->ion_auth->logged_in())
+            redirect('/', 'refresh');
     }
 
     public function index()

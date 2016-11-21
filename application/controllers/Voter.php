@@ -8,9 +8,8 @@ class Voter extends CI_Controller
     {
         parent::__construct();
 
-//        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-//            redirect('/', 'refresh');
-//        }
+        if (!$this->ion_auth->logged_in() || !$this->ion_auth->in_group('admin'))
+            redirect('/', 'refresh');
     }
 
     public function index()
@@ -26,13 +25,13 @@ class Voter extends CI_Controller
             ->set_table('voter')
             ->where('event_id', $this->config->item('default_event_id'))
             ->set_subject('Daftar Pemilih '.$data->name)
-            ->columns('identity','name','gender','pob','dob','note','status')
+            ->columns('identity','name','gender','note','status')
             ->callback_column('status',[$this, 'status_column'])
             ->display_as('identity','NIM')
             ->display_as('name','Nama')
             ->display_as('gender','Jenis Kelamin')
-            ->display_as('pob','Tempat Lahir')
-            ->display_as('dob','Tanggal Lahir')
+//            ->display_as('pob','Tempat Lahir')
+//            ->display_as('dob','Tanggal Lahir')
             ->display_as('note','Keterangan')
             ->display_as('status','Status')
             ->fields('event_id','identity','name','gender','pob','dob','note')
@@ -52,7 +51,7 @@ class Voter extends CI_Controller
         //sidebar
         $this->load->view('admin/themes/sidebar');
         //Booth index content
-        $this->load->view('candidate/index',$output);
+        $this->load->view('voter/index',$output);
         //footer
         $this->load->view('admin/themes/footer');
     }
