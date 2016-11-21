@@ -8,14 +8,12 @@ class VoterWaiting extends CI_Controller
     {
         parent::__construct();
 
-//        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-//            redirect('/', 'refresh');
-//        }
+        if (!$this->ion_auth->logged_in())
+            redirect('/', 'refresh');
     }
 
     public function index()
     {
-        //setInterval(function(){ $('.refersh-data').trigger('click'); },10000);
 
         $data = $this->db->get_where('event', ['event_id' => $this->config->item('default_event_id')])->row();
 
@@ -27,7 +25,7 @@ class VoterWaiting extends CI_Controller
         $this->grocery_crud
             ->set_table('voter')
             ->where('event_id', $this->config->item('default_event_id'))
-            ->where('status', 'pending')
+            ->where('voter.status', 'pending')
             ->order_by('check_in_time')
             ->set_subject('Daftar Pemilih '.$data->name)
             ->columns('identity','name','gender','pob','dob','note')
@@ -41,6 +39,8 @@ class VoterWaiting extends CI_Controller
             ->unset_add()
             ->unset_delete()
             ->unset_edit()
+            ->unset_print()
+            ->unset_export()
             ->unset_read();
 
         $output = $this->grocery_crud->render();
@@ -53,7 +53,7 @@ class VoterWaiting extends CI_Controller
         //sidebar
         $this->load->view('admin/themes/sidebar');
         //Booth index content
-        $this->load->view('voter/index',$output);
+        $this->load->view('voter-waiting/index',$output);
         //footer
         $this->load->view('admin/themes/footer');
     }
@@ -99,7 +99,7 @@ select *,
                 $note = $voter->note;
             }
 
-            $return[] = [
+            $return['data'][] = [
                 'booth_id' => $row->booth_id,
                 'title' => $row->title,
                 'voter_id' => $row->voter_id,
@@ -108,8 +108,8 @@ select *,
                 'note' => $note
             ];
         }
-
-        $this->load->view('voter/directing',$return);
+        $return['voter_id'] = $id;
+        $this->load->view('voter-waiting/directing',$return);
     }
 
     public function directing($voter_id, $booth_id)
@@ -159,7 +159,13 @@ select *,
 
         $this->db->insert_batch('voting', $insert);
 
-        $this->session->set_flashdata('message', $voter->identity.' silakan memasuki bilik '.$booth->title);
-        redirect('voterwaiting', 'refresh');
+
+        $this->db
+            ->where('voter_id', $voter_id)
+            ->set('status', 'process')
+            ->update('voter');
+
+        $output['message'] = $voter->identity.' silakan masuk bilik '.$booth->title;
+        $this->load->view('voter-waiting/summary',$output);
     }
 }

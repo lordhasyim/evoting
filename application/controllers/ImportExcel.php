@@ -24,6 +24,7 @@ class ImportExcel extends CI_Controller
         if ($this->checkEventAuthority($this->config->item('default_event_id')) === false)
             redirect('/','refresh');
 
+        $data['message'] = null;
         $data['title'] = 'Upload Excel';
         if($this->input->post() ){
             if (isset($_FILES['filename']['size']) && ($_FILES['filename']['size'] > 0)) {
@@ -34,15 +35,16 @@ class ImportExcel extends CI_Controller
 
                 $this->load->library('upload',$config);
                 if ($this->upload->do_upload('filename') === false) {
-                    $data['status'] = false;
                     $data['message'] = $this->upload->display_errors();
                 }else {
                     $media = $this->upload->data();
                     $inputFileName = './assets/uploads/'.$media['file_name'];
                     $import = $this->doImportExcel($inputFileName);
-                    $data['status'] = true;
-                    $data['success_imported'] = $import['success_imported'];
-                    $data['fail_imported'] = $import['fail_imported'];
+                    if($data['status'] = true) {
+                        $data['message'] = $import['success_imported'];
+                    } else {
+                        $data['message'] = $import['fail_imported'];
+                    }
                     $data['file'] = $media;
                 }
             }

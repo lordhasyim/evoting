@@ -53,24 +53,18 @@ class Users extends CI_Controller
         // validate form input
         $this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required');
         $this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required');
-        if($identity_column!=='email')
-        {
-            $this->form_validation->set_rules('identity',$this->lang->line('create_user_validation_identity_label'),'required|is_unique['.$tables['users'].'.'.$identity_column.']');
-            $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email');
-        }
-        else
-        {
-            $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[' . $tables['users'] . '.email]');
-        }
-        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'trim');
-        $this->form_validation->set_rules('company', $this->lang->line('create_user_validation_company_label'), 'trim');
+
+        $this->form_validation->set_rules('username','Username' ,'required|is_unique['.$tables['users'].'.'.$identity_column.']');
+
+//        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'trim');
+//        $this->form_validation->set_rules('company', $this->lang->line('create_user_validation_company_label'), 'trim');
         $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
 
         if ($this->form_validation->run() == true)
         {
             $email    = strtolower($this->input->post('email'));
-            $identity = ($identity_column==='email') ? $email : $this->input->post('identity');
+            $identity = ($identity_column==='email') ? $email : $this->input->post('username');
             $password = $this->input->post('password');
 
             $additional_data = array(
@@ -105,11 +99,11 @@ class Users extends CI_Controller
                 'type'  => 'text',
                 'value' => $this->form_validation->set_value('last_name'),
             );
-            $this->data['identity'] = array(
+            $this->data['username'] = array(
                 'name'  => 'identity',
                 'id'    => 'identity',
                 'type'  => 'text',
-                'value' => $this->form_validation->set_value('identity'),
+                'value' => $this->form_validation->set_value('username'),
             );
             $this->data['email'] = array(
                 'name'  => 'email',
@@ -174,8 +168,6 @@ class Users extends CI_Controller
         // validate form input
         $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
         $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required');
-        $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
-        $this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required');
 
         if (isset($_POST) && !empty($_POST))
         {
@@ -197,8 +189,6 @@ class Users extends CI_Controller
                 $data = array(
                     'first_name' => $this->input->post('first_name'),
                     'last_name'  => $this->input->post('last_name'),
-                    'company'    => $this->input->post('company'),
-                    'phone'      => $this->input->post('phone'),
                 );
 
                 // update the password if it was posted

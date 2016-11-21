@@ -88,8 +88,8 @@
         <label for="password">Password:</label>
         <input name="password" value="" id="password" type="password" class="form-control">
 
-        <?php echo lang('login_remember_label', 'remember'); ?>
-        <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"'); ?>
+<!--        --><?php //echo lang('login_remember_label', 'remember'); ?>
+<!--        --><?php //echo form_checkbox('remember', '1', FALSE, 'id="remember"'); ?>
 
         <?php /*echo form_submit('submit', lang('login_submit_btn'));*/ ?>
         <input name="submit" value="Login" type="submit" class="btn btn-lg btn-primary btn-block">

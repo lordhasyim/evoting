@@ -17,12 +17,6 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <?php if($message) {
-                                ?>
-                                <div class="alert alert-warning"><?php echo $message;?></div>
-                                <?php
-                            }?>
-
                             <?php
                             foreach($css_files as $file): ?>
                                 <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
@@ -44,3 +38,6 @@
     </div>
 </div>
 
+<script>
+    setInterval(function(){ $('.refresh-data').trigger('click'); },10000);
+</script>
