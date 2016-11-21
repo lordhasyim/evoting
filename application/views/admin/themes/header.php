@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="<?php echo base_url("assets/bootstrap/loginstyle.css"); ?>"/>
     <link rel="stylesheet" href="<?php echo base_url("assets/admin/timeline.css"); ?>"/>
     <link rel="stylesheet" href="<?php echo base_url("assets/admin/sb-admin.css"); ?>"/>
-    <link rel="stylesheet" href="<?php echo base_url("assets/admin/sb-admin.js"); ?>"/>
+    <link rel="text/javascript" href="<?php echo base_url("assets/admin/sb-admin.js"); ?>"/>
     <link rel="stylesheet" href="<?php echo base_url("assets/admin/font-awesome/css/font-awesome.css"); ?>"/>
 
     <!-- Page-Level Plugin CSS - Dashboard -->

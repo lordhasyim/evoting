@@ -77,3 +77,4 @@ $route['choosing-booth/(:num)/(:num)'] = 'VoterWaiting/directing/$1/$2';
 $route['booth-list'] = 'Booth/lists';
 $route['booth/login'] = 'Booth/login';
 $route['admin/sections'] = 'Sections/index/$1';
+$route['history'] = 'History/index/$1';
