@@ -187,7 +187,7 @@ select *,
         //sidebar
         $this->load->view('admin/themes/sidebar');
         //Booth index content
-        $this->load->view('voter-waiting/summary',$output);x
+        $this->load->view('voter-waiting/summary',$output);
         //footer
         $this->load->view('admin/themes/footer');
     }
