@@ -13,7 +13,7 @@
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
-                <a href="logout.php" class="navbar-brand"><strong>Logout</strong></a>
+                <a href="<?php echo base_url("Logout") ; ?>" class="navbar-brand"><strong>Logout</strong></a>
 
 
                 <!-- /.dropdown -->
@@ -27,7 +27,7 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                 </li>
                 <li class="divider"></li>
-                <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                <li><a href="<?php echo base_url("Logout") ; ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
             </li>
         </ul>
         <!-- /.dropdown-user -->
