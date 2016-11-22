@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> Pemilih</h1>
+            <h1 class="page-header"> Detail Pemilihan</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -11,7 +11,7 @@
             <!-- /.panel -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Daftar Pemilih
+                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Daftar Detail Pemilih
                 </div>
 
                 <div class="panel-body">

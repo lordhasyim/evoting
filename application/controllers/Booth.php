@@ -34,6 +34,7 @@ class Booth extends CI_Controller
             ->callback_edit_field('password',array($this,'input_password_callback'))
             ->display_as('title','Nama Bilik')
             ->required_fields('event_id','title')
+            ->add_action('Login Sebagai Bilik', '', 'booth-login','ui-icon-grip-dotted-horizontal')
             ->unset_read()
             ->unset_print()
             ->unset_export();
@@ -78,24 +79,35 @@ class Booth extends CI_Controller
 
     public function login($booth_id)
     {
+
+        $data = $this->db->get_where('booth', [
+            'event_id' => $booth_id,
+            'status' => true
+        ])->result();
+
+        if($data === null)
+            redirect('/', 'refresh');
+
         $this->form_validation->set_rules(
             'password',
             str_replace(':', '', $this->lang->line('login_password_label')),
             'required'
         );
 
+        $row = $this->db->get_where('booth', [
+            'booth_id' => $booth_id,
+            'status' => true
+        ])->row();
+
         if ($this->form_validation->run() == true)
         {
-
-            $row = $this->db->get_where('booth', [
-                'booth_id' => $booth_id,
-                'status' => true
-            ])->row();
 
             if($row !== null)
             {
                 if (password_verify($this->input->post('password'), $row->password))
                 {
+                    $this->ion_auth->logout();
+
                     $userdata = ['booth_id' => $this->input->post('booth_id')];
 
                     $this->session->set_userdata($userdata);
@@ -109,14 +121,24 @@ class Booth extends CI_Controller
             }
         }
 
+        $this->data['item'] = $row;
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
 
         $this->data['password'] = array('name' => 'password',
             'id'   => 'password',
             'type' => 'password',
         );
 
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //Booth index content
         $this->load->view('booth/login', $this->data);
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 
     public function counter($booth_id)
@@ -137,7 +159,7 @@ class Booth extends CI_Controller
     public function logout()
     {
         $this->session->unset_userdata(['booth_id']);
-        redirect('/', 'refresh');
+        redirect('/logout', 'refresh');
     }
 
 }

@@ -6,7 +6,7 @@
  * Time: 14.27
  */
 include('themes/header.php');
-include('themes/nav.php');
+//include('themes/nav.php');
 include('themes/sidebar.php');
 //include ('konten.php');
 
