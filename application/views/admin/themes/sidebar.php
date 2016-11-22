@@ -10,10 +10,6 @@
                             <a href="<?php echo base_url('voting-result')?>">
                                 <i class="fa fa-bar-chart-o fa-fw"></i> Hasil Pemilihan</a>
                         </li>
-                        <li>
-                            <a href="<?php echo base_url('voting-detail')?>">
-                                <i class="fa fa-bar-chart-o fa-fw"></i> Detail Pemilihan</a>
-                        </li>
                     <?php } ?>
                     <li>
                         <a href="<?php echo base_url('voter-percentage')?>">

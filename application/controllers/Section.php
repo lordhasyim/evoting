@@ -30,13 +30,17 @@ class Section extends CI_Controller
             ->display_as('note','Keterangan')
             ->unset_texteditor('title','note')
             ->required_fields('event_id','title','timer','note')
-            ->add_action('Lihat Kandidat', '', 'candidate/index','ui-icon-grip-dotted-horizontal')
+            ->add_action('Lihat Kandidat', '', 'Candidate/index','ui-icon-grip-dotted-horizontal')
             ->unset_add()
             ->unset_delete()
             ->unset_read_fields('date_created')
             ->unset_read()
             ->unset_print()
             ->unset_export();
+
+        if($this->ion_auth->is_admin()) {
+            $this->grocery_crud->add_action('Lihat Detail Pemilih', '', 'VotingDetail/index','ui-icon-grip-dotted-horizontal');
+        }
         $output = $this->grocery_crud->render();
 
         //template from admin themes

@@ -109,7 +109,19 @@ select *,
             ];
         }
         $return['voter_id'] = $id;
+
+        //template from admin
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //Booth index content
         $this->load->view('voter-waiting/directing',$return);
+        //footer
+        $this->load->view('admin/themes/footer');
+
     }
 
     public function directing($voter_id, $booth_id)
@@ -166,6 +178,17 @@ select *,
             ->update('voter');
 
         $output['message'] = $voter->identity.' silakan masuk bilik '.$booth->title;
-        $this->load->view('voter-waiting/summary',$output);
+
+        //template from admin
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //Booth index content
+        $this->load->view('voter-waiting/summary',$output);x
+        //footer
+        $this->load->view('admin/themes/footer');
     }
 }
