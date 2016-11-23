@@ -13,10 +13,11 @@ class Section extends CI_Controller
 
     public function index()
     {
-        $data = $this->db->get_where('section', ['event_id' => $this->config->item('default_event_id')])->row();
-
-        if($data === null)
-            redirect('/', 'refresh');
+//        echo $this->config->item('default_event_id');
+//        $data = $this->db->get_where('section', ['event_id' => $this->config->item('default_event_id')])->row();
+//
+//        if($data === null)
+//            redirect('/', 'refresh');
 
         $this->grocery_crud
             ->set_table('section')
@@ -31,7 +32,7 @@ class Section extends CI_Controller
             ->unset_texteditor('title','note')
             ->required_fields('event_id','title','timer','note')
             ->add_action('Lihat Kandidat', '', 'Candidate/index','ui-icon-grip-dotted-horizontal')
-            ->unset_add()
+//            ->unset_add()
             ->unset_delete()
             ->unset_read_fields('date_created')
             ->unset_read()
@@ -40,6 +41,7 @@ class Section extends CI_Controller
 
         if($this->ion_auth->is_admin()) {
             $this->grocery_crud->add_action('Lihat Detail Pemilih', '', 'VotingDetail/index','ui-icon-grip-dotted-horizontal');
+            $this->grocery_crud->add_action('Hasil Pemilihan', '', 'voting-result/','ui-icon-grip-dotted-horizontal');
         }
         $output = $this->grocery_crud->render();
 

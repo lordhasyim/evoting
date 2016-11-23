@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller {
+class VoterPercentage extends CI_Controller {
     public $is_admin;
     public $logged_in_name;
 
@@ -37,14 +37,27 @@ GROUP BY status")->result_array();
         $data['username'] = $username;
 
         $this->load->view('admin/themes/header');
-        //nav, top menu
-        $this->load->view('admin/themes/nav');
-        //sidebar
-        $this->load->view('admin/themes/sidebar');
         //candidate index content
-        $this->load->view('admin/dashboard', $data);
+        $this->load->view('voter-percentage/index', $data);
         //footer
         $this->load->view('admin/themes/footer');
      
+    }
+
+    public function data()
+    {
+        $query = $this->db->query("SELECT status, COUNT(*) as total FROM voter WHERE event_id = " . $this->config->item('default_event_id') . "
+GROUP BY status")->result_array();
+
+
+        $num_rows = $this->db->get_where('voter', ['event_id' => $this->config->item('default_event_id')])->num_rows();
+
+        foreach ($query as $item) {
+            $graph[] = [
+                'name' => $item['status'],
+                'y' => $item['total'] / $num_rows
+            ];
+        }
+        $data['graph'] = json_encode($graph);
     }
 }

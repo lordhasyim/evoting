@@ -14,12 +14,15 @@
             <!-- /.panel -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa |
+                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Hasil <?php echo $section->title; ?>
                 </div>
 
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
+                            <p align="right">
+                                <?php echo anchor('section', 'Kembali', "class='btn btn-default'")?>
+                            </p>
                             <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 
                         </div>
@@ -71,14 +74,14 @@
         });
 
 
-//        function getData() {
-//            $.getJSON( "<?php //echo base_url("voting-result/data/".$section->section_id); ?>//", function( data ) {
-//                chart.series[0].setData(data);
-//            });
-//
-//            setTimeout(getData, 2000);
-//        }
-//        getData();
+        function getData() {
+            $.getJSON( "<?php echo base_url("voting-result/data/".$section->section_id); ?>", function( data ) {
+                chart.series[0].setData(data);
+            });
+
+            setTimeout(getData, 2000);
+        }
+        getData();
     });
 
 

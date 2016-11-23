@@ -1,7 +1,6 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-<div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header"> Hasil Pemilihan</h1>
@@ -32,7 +31,6 @@
         </div>
         <!-- /.panel -->
     </div>
-</div>
 
 <script>
     $(function () {
@@ -71,14 +69,14 @@
         });
 
 
-//        function getData() {
-//            $.getJSON( "<?php //echo base_url("voting-result/data/".$section->section_id); ?>//", function( data ) {
-//                chart.series[0].setData(data);
-//            });
-//
-//            setTimeout(getData, 2000);
-//        }
-//        getData();
+        function getData() {
+            $.getJSON( "<?php echo base_url("voter-percentage/data"); ?>", function( data ) {
+                chart.series[0].setData(data);
+            });
+
+            setTimeout(getData, 2000);
+        }
+        getData();
     });
 
 

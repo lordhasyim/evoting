@@ -72,6 +72,7 @@ class Users extends CI_Controller
                 'last_name'  => $this->input->post('last_name'),
                 'company'    => $this->input->post('company'),
                 'phone'      => $this->input->post('phone'),
+                'parent_id'      => $this->session->userdata('user_id'),
             );
         }
         if ($this->form_validation->run() == true && $this->ion_auth->register($identity, $password, $email, $additional_data))
