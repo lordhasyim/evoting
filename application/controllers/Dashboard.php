@@ -45,6 +45,6 @@ GROUP BY status")->result_array();
         $this->load->view('admin/dashboard', $data);
         //footer
         $this->load->view('admin/themes/footer');
-     
+
     }
 }

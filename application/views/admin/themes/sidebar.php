@@ -62,7 +62,7 @@
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Aturan Pemilihan <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="<?php echo base_url('section') ?>"><i class="fa fa-edit fa-fw"></i> Section</a>
+                            <a href="<?php echo base_url('section') ?>"><i class="fa fa-edit fa-fw"></i> Kelembagaan</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('booth') ?>"><i class="fa fa-sitemap fa-fw"></i> Bilik</a>

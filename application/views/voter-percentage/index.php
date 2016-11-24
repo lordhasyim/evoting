@@ -3,7 +3,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> Hasil Pemilihan</h1>
+            <h1 class="page-header"> Prosentase Pemilih </h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -42,7 +42,7 @@
                 type: 'pie'
             },
             title: {
-                text: 'Browser market shares January, 2015 to May, 2015'
+                text: 'Prosentase Pemilih '
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
