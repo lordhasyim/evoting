@@ -25,6 +25,9 @@ GROUP BY status")->result_array();
 
         $num_rows = $this->db->get_where('voter', ['event_id' => $this->config->item('default_event_id')])->num_rows();
 
+        //for testing
+        $graph = null;
+
         foreach ($query as $item) {
             $graph[] = [
                 'name' =>$item['status'],
