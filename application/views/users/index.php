@@ -38,17 +38,30 @@
 								</thead>
 								<tbody>
 								<?php foreach ($users as $user):?>
+									<?php $groups = []; ?>
 									<tr>
 										<td><?php echo htmlspecialchars($user->username,ENT_QUOTES,'UTF-8');?></td>
 										<td><?php echo htmlspecialchars($user->first_name,ENT_QUOTES,'UTF-8');?></td>
 										<td><?php echo htmlspecialchars($user->last_name,ENT_QUOTES,'UTF-8');?></td>
 										<td>
 											<?php foreach ($user->groups as $group):?>
-												<button class="btn btn-default"> <?php echo htmlspecialchars($group->name,ENT_QUOTES,'UTF-8') ?></button>
+												<?php $groups[] = $group->name;  ?>
+												<?php if($this->config->item('admin_group', 'ion_auth') == $group->name) :?>
+													<?php echo htmlspecialchars($group->name,ENT_QUOTES,'UTF-8')?>
+												<?php else: ?>
+													<button class="btn btn-default"> <?php echo htmlspecialchars($group->name,ENT_QUOTES,'UTF-8') ?>
+													</button>
+												<?php endif; ?>
 											<?php endforeach?>
 										</td>
-										<td><?php echo ($user->active) ? anchor("users/deactivate/".$user->id, lang('index_active_link'),
-												"class='btn btn-link'") : anchor("users/activate/". $user->id, lang('index_inactive_link'));?></td>
+										<td>
+
+											<?php if(!in_array($this->config->item('admin_group', 'ion_auth'),$groups)) :?>
+												<?php echo ($user->active) ? anchor("users/deactivate/".$user->id, lang('index_active_link'),
+													"class='btn btn-link'") : anchor("users/activate/". $user->id, lang('index_inactive_link'));?>
+											<?php endif; ?>
+
+										</td>
 										<td><?php echo anchor("users/edit/".$user->id, 'Edit', "class='btn btn-warning'") ;?></td>
 									</tr>
 								<?php endforeach;?>

@@ -62,4 +62,11 @@ class Login extends CI_Controller
 
         $this->load->view('login', $this->data);
     }
+
+    public function booth($booth_id)
+    {
+        $this->session->set_userdata('booth_id', $booth_id);
+
+        redirect('vote', 'refresh');
+    }
 }

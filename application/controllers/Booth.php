@@ -34,6 +34,7 @@ class Booth extends CI_Controller
             ->callback_edit_field('password',array($this,'input_password_callback'))
             ->display_as('title','Nama Bilik')
             ->required_fields('event_id','title')
+            ->add_action('Counter', '', 'booth-counter','ui-icon-grip-dotted-horizontal')
             ->add_action('Login Sebagai Bilik', '', 'booth-login','ui-icon-grip-dotted-horizontal')
             ->unset_read()
             ->unset_print()
@@ -62,19 +63,6 @@ class Booth extends CI_Controller
 
     function input_password_callback($post_array) {
         return '<input id="field-password" class="form-control" name="password" type="password" value="" maxlength="16">';
-    }
-
-    public function lists()
-    {
-        $data['items'] = $this->db->get_where('booth', [
-            'event_id' => $this->config->item('default_event_id'),
-            'status' => true
-        ])->result();
-
-        var_dump($data);
-
-//        $this->load->view('booth/list',$data);
-
     }
 
     public function login($booth_id)
@@ -107,12 +95,8 @@ class Booth extends CI_Controller
                 if (password_verify($this->input->post('password'), $row->password))
                 {
                     $this->ion_auth->logout();
+                    redirect('login/booth/'.$booth_id, 'refresh');
 
-                    $userdata = ['booth_id' => $this->input->post('booth_id')];
-
-                    $this->session->set_userdata($userdata);
-
-                    redirect('vote', 'refresh');
                 }
                 $this->session->set_flashdata('message', 'password salah');
             } else {
@@ -141,18 +125,72 @@ class Booth extends CI_Controller
         $this->load->view('admin/themes/footer');
     }
 
+    public function monitoring()
+    {
+        $result = $this->db->query("
+select *,
+	(select v.`voter_id` from voting v where v.`booth_id` = b.`booth_id` and v.`status` <> true limit 1) as voter_id
+	from `booth` b where  b.`status` = true")->result();
+
+        if($result === null)
+            redirect('voterwaiting', 'refresh');
+
+        foreach($result as $row) {
+
+
+            $identity = null;
+            $name = null;
+            $note = null;
+
+            if ($row->voter_id !== null) {
+                $voter = $this->db->get_where('voter',
+                    [
+                        'event_id' => $this->config->item('default_event_id'),
+                        'voter_id'  => $row->voter_id
+                    ])->row();
+
+                $identity = $voter->identity;
+                $name = $voter->name;
+                $note = $voter->note;
+            }
+
+            $return['data'][] = [
+                'booth_id' => $row->booth_id,
+                'title' => $row->title,
+                'voter_id' => $row->voter_id,
+                'identity' => $identity,
+                'name' => $name,
+                'note' => $note
+            ];
+        }
+
+        //template from admin
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //Booth index content
+        $this->load->view('booth/lists',$return);
+        //footer
+        $this->load->view('admin/themes/footer');
+    }
+
     public function counter($booth_id)
     {
         $data = $this->db
             ->from('voting')
+            ->join('booth', 'booth.booth_id = voting.booth_id')
             ->join('voter', 'voter.voter_id = voting.voter_id')
             ->where('voting.status', false)
             ->where('voting.booth_id', $booth_id)
 //            ->group_by('voter.voter_id')
             ->order_by('voting.date_created', 'asc')
-            ->limit(1)->get()->row();
+            ->limit(1)->get()->row_array();
 
-        echo json_encode($data);
+
+        $this->load->view('booth/counter',['data' => $data]);
 
     }
 

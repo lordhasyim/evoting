@@ -76,7 +76,6 @@
 
                                 <div class="col-sm-6">
                                     <?php foreach ($groups as $group): ?>
-                                        <label class="btn btn-primary">
                                             <?php
                                             $gID = $group['id'];
                                             $checked = null;
@@ -88,10 +87,14 @@
                                                 }
                                             }
                                             ?>
-                                            <input type="checkbox" name="groups[]"
-                                                   value="<?php echo $group['id']; ?>"<?php echo $checked; ?>>
-                                            <?php echo htmlspecialchars($group['name'], ENT_QUOTES, 'UTF-8'); ?>
-                                        </label>
+                                            <?php if($this->config->item('admin_group', 'ion_auth') != $group['name']) :?>
+
+                                            <label class="btn btn-primary">
+                                                <input type="checkbox" name="groups[]"
+                                                    value="<?php echo $group['id']; ?>"<?php echo $checked; ?>>
+                                                    <?php echo htmlspecialchars($group['name'], ENT_QUOTES, 'UTF-8'); ?>
+                                            </label>
+                                            <?php endif; ?>
                                     <?php endforeach ?>
                                 </div>
                                 <?php endif ?>

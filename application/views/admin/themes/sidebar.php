@@ -5,32 +5,35 @@
                 <a href="<?php echo base_url() ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 <ul class="nav nav-second-level">
 
-                    <?php if ($this->ion_auth->in_group(['superadmin'])) {?>
-                        <li>
-                            <a href="<?php echo base_url('voting-result')?>">
-                                <i class="fa fa-bar-chart-o fa-fw"></i> Hasil Pemilihan</a>
-                        </li>
-                    <?php } ?>
+<!--                    --><?php //if ($this->ion_auth->in_group(['superadmin'])) {?>
+<!--                        <li>-->
+<!--                            <a href="--><?php //echo base_url('voting-result')?><!--">-->
+<!--                                <i class="fa fa-bar-chart-o fa-fw"></i> Hasil Pemilihan</a>-->
+<!--                        </li>-->
+<!--                    --><?php //} ?>
                     <li>
                         <a href="<?php echo base_url('voter-percentage')?>">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Prosentase Pemilih</a>
                     </li>
-                    <li>
-                        <a href="<?php echo base_url('booth-monitoring')?>">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Monitor Bilik</a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a href="--><?php //echo base_url('booth-monitoring')?><!--">-->
+<!--                            <i class="fa fa-bar-chart-o fa-fw"></i> Monitor Bilik</a>-->
+<!--                    </li>-->
                 </ul>
             </li>
 
             <?php if ($this->ion_auth->in_group(['superadmin'])) {?>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Manajemen User<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Manajemen Aplikasi<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="<?php echo base_url('users')?>">Users</a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('groups')?>"> Groups</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url('event')?>"> Event</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> Detail Pemilihan</h1>
+            <h1 class="page-header"> Event Pemilihan</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -11,15 +11,12 @@
             <!-- /.panel -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Daftar Detail Pemilih
+                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Daftar Event Pemilihan
                 </div>
 
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <p align="right">
-                                <?php echo anchor('section', 'Kembali', "class='btn btn-default'")?>
-                            </p>
                             <?php
                             foreach($css_files as $file): ?>
                                 <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
