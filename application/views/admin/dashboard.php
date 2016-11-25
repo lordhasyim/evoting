@@ -18,7 +18,6 @@
                 <div class="panel-heading">
                     <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Prosentase pemilih yang telah menggunakan hak pilihnya
                 </div>
-
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
