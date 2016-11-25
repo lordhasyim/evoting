@@ -17,6 +17,9 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
+                            <p align="right">
+                                <?php echo anchor('section', 'Kembali', "class='btn btn-default'")?>
+                            </p>
                             <?php
                             foreach($css_files as $file): ?>
                                 <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />

@@ -114,7 +114,7 @@ class ImportExcel extends CI_Controller
             }
 
             if ($this->db->get_where('voter', [
-                    'section_id' => $this->event_id,
+                    'event_id' => $this->event_id,
                     'identity' => $rowData[0][1]
                 ])->num_rows() < 1) {
                 $data = array(

@@ -25,9 +25,10 @@ GROUP BY status")->result_array();
 
         $num_rows = $this->db->get_where('voter', ['event_id' => $this->config->item('default_event_id')])->num_rows();
 
+        $graph = [];
         foreach ($query as $item) {
             $graph[] = [
-                'name' =>$item['status'],
+                'name' => $this->status_column($item['status']),
                 'y' => $item['total'] / $num_rows
             ];
         }
@@ -46,5 +47,18 @@ GROUP BY status")->result_array();
         //footer
         $this->load->view('admin/themes/footer');
 
+    }
+
+    private function status_column($status) {
+        switch ($status) {
+            case 'open' :
+                return 'Belum Memilih';
+            case 'pending' :
+                return 'Dalam Antrian';
+            case 'process' :
+                return 'Proses Memilih';
+            case 'done' :
+                return 'Telah Memilih';
+        }
     }
 }
