@@ -44,6 +44,10 @@ class Vote extends CI_Controller
                 ->order_by('voting.date_created', 'asc')
                 ->limit(1)->get()->row();
 
+            if(!isset($voting)) {
+                redirect('vote-waiting', 'refresh');
+            }
+
             $data = $this->db
                 ->select('voting.voting_id, candidate.*')
                 ->from('voting')
@@ -54,9 +58,6 @@ class Vote extends CI_Controller
                 ->get()
                 ->result();
         }
-
-        if($data === null)
-            redirect('vote-waiting', 'refresh');
 
         $this->load->view('vote/candidate',['data' => $voting, 'items'=>$data]);
     }
@@ -78,6 +79,10 @@ class Vote extends CI_Controller
 
         if($this->db->affected_rows() > 0) {
 
+            $voter = $this->db
+                ->from('voting')
+                ->where('voting.voting_id =', $voting_id)->get()->row();
+
             $data = $this->db
                 ->from('voting')
                 ->where('voting.status', false)
@@ -85,8 +90,15 @@ class Vote extends CI_Controller
                 ->order_by('voting.date_created', 'asc')
                 ->limit(1)->get()->row();
 
-            if($data === null)
+
+            if(!isset($data)) {
+                $this->db->set('status','done');
+                $this->db->where('status','process');
+                $this->db->where('voter_id',$voter->voter_id);
+                $this->db->update('voter');
+
                 redirect('vote-waiting', 'refresh');
+            }
 
             redirect('section-vote/'.$data->voter_id,'refresh');
         } else {

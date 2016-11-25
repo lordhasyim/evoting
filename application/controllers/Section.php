@@ -41,7 +41,7 @@ class Section extends CI_Controller
 
         if($this->ion_auth->is_admin()) {
             $this->grocery_crud->add_action('Lihat Detail Pemilih', '', 'VotingDetail/index','ui-icon-grip-dotted-horizontal');
-            $this->grocery_crud->add_action('Hasil Pemilihan', '', 'voting-result/','ui-icon-grip-dotted-horizontal');
+            $this->grocery_crud->add_action('Hasil Pemilihan', '', 'voting-result','ui-icon-grip-dotted-horizontal');
         }
         $output = $this->grocery_crud->render();
 
