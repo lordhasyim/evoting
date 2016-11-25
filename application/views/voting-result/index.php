@@ -52,53 +52,52 @@
                         <?php echo anchor('section', 'Kembali', "class='btn btn-default'") ?>
                     </p>
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-12">
                             <div id="container"
                                  style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 
                         </div>
-                        <div class="col-lg-8">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
                             <div class="row">
-                                <div class="col-lg-6 rwrapper">
-                                    <div class="rlisting">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa |
-                                                Hasil <?php echo $section->title; ?>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="col-md-12 nopad">
-                                                    <img src="<?php echo base_url('assets/img/photo.png'); ?>"
-                                                         class="img-responsive" height="250" width="250">
+
+                                <?php $i = 0; ?>
+                                <?php foreach($data as $item):?>
+                                    <?php if($item['candidate_id'] == NULL)
+                                        continue; ?>
+                                    <?php $i++; ?>
+                                <?php endforeach; ?>
+
+                                <?php foreach($data as $item):?>
+                                    <?php if($item['candidate_id'] == NULL)
+                                        continue; ?>
+                                    <?php if ($i%2 ==  0) {?>
+                                        <div class="col-lg-6 rwrapper">
+                                    <?php }else { ?>
+                                        <div class="col-lg-4 rwrapper">
+                                    <?php }?>
+                                        <div class="rlisting">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa |
+                                                    Hasil <?php echo $section->title; ?>
                                                 </div>
-                                                <div class="col-md-12 nopad">
-                                                    <h1 class="text-center text-danger">45%</h1>
-                                                    <h1 class="text-center text-danger">100</h1>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 rwrapper">
-                                    <div class="rlisting">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa |
-                                                Hasil <?php echo $section->title; ?>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="col-md-12 nopad">
-                                                    <img src="<?php echo base_url('assets/img/photo.png'); ?>"
-                                                         class="img-responsive" height="250" width="250">
-                                                </div>
-                                                <div class="col-md-12 nopad">
-                                                    <h1 class="text-center text-danger">45%</h1>
-                                                    <h1 class="text-center text-danger">100</h1>
+                                                <div class="panel-body">
+                                                    <div class="col-md-12 nopad">
+                                                        <img src="<?php echo base_url('assets/uploads/files/'.$item['picture']) ; ?>"
+                                                             class="img-responsive" height="250" width="250">
+                                                    </div>
+                                                    <div class="col-md-12 nopad">
+                                                        <h1 class="text-center text-danger"><?php echo $item['percentage']*100 ?>%</h1>
+                                                        <h1 class="text-center text-danger"><?php echo $item['voter_total'] ?></h1>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                <?php endforeach; ?>
+
                             </div>
                         </div>
                         <!-- /.row -->
@@ -131,12 +130,9 @@
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                            style: {
-                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                            }
-                        }
+                            enabled: false
+                        },
+                        showInLegend: true
                     }
                 },
                 series: [{

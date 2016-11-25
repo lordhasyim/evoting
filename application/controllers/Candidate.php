@@ -25,6 +25,7 @@ class Candidate extends CI_Controller
         $this->grocery_crud
             ->set_table('candidate')
             ->where('section_id', $section_id)
+            ->order_by('serial_number')
             ->set_subject('Daftar Kandidat '.$data->title)
             ->columns('identity','name','serial_number','motto','picture')
             ->display_as('identity','NIM')

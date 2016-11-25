@@ -25,16 +25,16 @@ class VotingResult extends CI_Controller
         $data['section_id'] = $section_id;
         $data['section'] = $row;
 
+        $num_rows = $this->db->get_where('voting', ['section_id' => $section_id, 'status' => true])->num_rows();
 
-        $query = $this->db->query("select IFNULL(c.name,'Golput') as graph_name, c.*,  count(IFNULL(v.candidate_id,0)) as voter_total from `voting` v
+        $query = $this->db->query("select IFNULL(c.name,'Golput') as graph_name, c.*,  count(IFNULL(v.candidate_id,0)) as voter_total, count(IFNULL(v.candidate_id,0))/$num_rows as percentage from `voting` v
 LEFT JOIN candidate c on c.candidate_id = v.candidate_id
 WHERE v.section_id = $section_id
 AND v.status = true
 GROUP BY v.candidate_id")->result_array();
 
 
-        $num_rows = $this->db->get_where('voting', ['section_id' => $section_id, 'status' => true])->num_rows();
-
+        $graph = null;
         foreach ($query as $item) {
             $graph[] = [
                 'name' => $item['graph_name'],

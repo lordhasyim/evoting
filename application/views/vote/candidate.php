@@ -34,8 +34,15 @@
     </div>
     <div class="container bg">
         <div class="row">
+
+            <?php $i = count($items); ?>
+
             <?php foreach($items as $item):?>
-                <div class="col-xs-12 col-sm-6 col-md-3 rwrapper">
+                <?php if ($i%3 ==  0) {?>
+                        <div class="col-md-2">
+                <?php }else { ?>
+                        <div class="col-md-6">
+                <?php }?>
                     <div class="rlisting">
                         <div class="panel panel-default">
                             <div class="panel-heading"><h1 class="text-center"> <b> <?php echo $item->serial_number ?> </b> </h1></div>
@@ -46,7 +53,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-12 nopad">
-                                    <h3 class="text-center"><?php $item->name ?> </h3>
+                                    <h3 class="text-center text-success"><?php echo $item->name ?></h3>
                                     <a href="<?php echo base_url('vote/'.$data->voting_id.'/'.$item->candidate_id) ; ?>" id="enter" class="btn btn-block btn-primary" > Pilih</a>
                                 </div>
                             </div>
@@ -84,7 +91,7 @@
 
         setTimeout(check, 2000);
     }
-    countDown();
+//    countDown();
     check();
 
 </script>
