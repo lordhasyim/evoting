@@ -36,9 +36,9 @@ class Candidate extends CI_Controller
             ->field_type('section_id', 'hidden', $section_id)
             ->set_field_upload('picture','assets/uploads/files')
             ->unset_texteditor('motto')
-            ->required_fields('section_id','identity','name','serial_number','picture')
-            ->set_rules('identity', 'NIM','callback_identity_check')
-            ->set_rules('serial_number', 'No Urut','callback_serial_number_check');
+//            ->set_rules('identity', 'NIM','required|is_unique[candidate.identity]')
+//            ->set_rules('serial_number', 'No Urut','callback_serial_number_check')
+            ->required_fields('section_id','identity','name','serial_number','picture');
         $output = $this->grocery_crud->render();
 
         //template from admin themes
@@ -54,29 +54,29 @@ class Candidate extends CI_Controller
         $this->load->view('admin/themes/footer');
     }
 
-    function identity_check($identity)
-    {
-        if ($this->db->get_where('candidate', [
-            'section_id' => $this->section_id,
-            'identity' => $identity
-        ])->num_rows() > 0) {
-            $this->form_validation->set_message('identity_check', "NIM $identity sudah terdaftar sebagai kandidat");
-            return FALSE;
-        }
-        return true;
-    }
-
-
-    function serial_number_check($serial_number)
-    {
-        if ($this->db->get_where('candidate', [
-                'section_id' => $this->section_id,
-                'serial_number' => $serial_number
-            ])->num_rows() > 0) {
-            $this->form_validation->set_message('serial_number_check', "$serial_number sudah terdaftar");
-            return FALSE;
-        }
-        return true;
-    }
+//    function identity_check($identity)
+//    {
+//        if ($this->db->get_where('candidate', [
+//            'section_id' => $this->section_id,
+//            'identity' => $identity
+//        ])->num_rows() > 0) {
+//            $this->form_validation->set_message('identity_check', "NIM $identity sudah terdaftar sebagai kandidat");
+//            return FALSE;
+//        }
+//        return true;
+//    }
+//
+//
+//    function serial_number_check($serial_number)
+//    {
+//        if ($this->db->get_where('candidate', [
+//                'section_id' => $this->section_id,
+//                'serial_number' => $serial_number
+//            ])->num_rows() > 0) {
+//            $this->form_validation->set_message('serial_number_check', "$serial_number sudah terdaftar");
+//            return FALSE;
+//        }
+//        return true;
+//    }
 
 }

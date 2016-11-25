@@ -6,7 +6,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> Hasil Pemilihan</h1>
+            <h1 class="page-header"> Dashboard</h1>
         </div>
         <!— /.col-lg-12 —>
     </div>
@@ -16,7 +16,7 @@
             <!— /.panel —>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa |
+                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Prosentase pemilih yang telah menggunakan hak pilihnya
                 </div>
 
                 <div class="panel-body">
@@ -46,7 +46,7 @@
                 type: 'pie'
             },
             title: {
-                text: 'Browser market shares January, 2015 to May, 2015'
+                text: 'Prosentase pemilih yang telah menggunakan hak pilihnya'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

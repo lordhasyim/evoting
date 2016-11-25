@@ -30,7 +30,7 @@ GROUP BY status")->result_array();
 
         foreach ($query as $item) {
             $graph[] = [
-                'name' =>$item['status'],
+                'name' => $this->status_column($item['status']),
                 'y' => $item['total'] / $num_rows
             ];
         }
@@ -62,5 +62,18 @@ GROUP BY status")->result_array();
             ];
         }
         $data['graph'] = json_encode($graph);
+    }
+
+    private function status_column($status) {
+        switch ($status) {
+            case 'open' :
+                return 'Belum Memilih';
+            case 'pending' :
+                return 'Dalam Antrian';
+            case 'process' :
+                return 'Proses Memilih';
+            case 'done' :
+                return 'Telah Memilih';
+        }
     }
 }

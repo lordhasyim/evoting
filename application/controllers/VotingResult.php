@@ -26,7 +26,7 @@ class VotingResult extends CI_Controller
         $data['section'] = $row;
 
 
-        $query = $this->db->query("select IFNULL(c.name,'Golput') as graph_name, c.*,  count(IFNULL(v.candidate_id,0)) as voter from `voting` v
+        $query = $this->db->query("select IFNULL(c.name,'Golput') as graph_name, c.*,  count(IFNULL(v.candidate_id,0)) as voter_total from `voting` v
 LEFT JOIN candidate c on c.candidate_id = v.candidate_id
 WHERE v.section_id = $section_id
 AND v.status = true
@@ -38,7 +38,7 @@ GROUP BY v.candidate_id")->result_array();
         foreach ($query as $item) {
             $graph[] = [
                 'name' =>$item['graph_name'],
-                'y' => $item['voter'] / $num_rows
+                'y' => $item['voter_total'] / $num_rows
             ];
         }
         $data['graph'] = json_encode($graph);

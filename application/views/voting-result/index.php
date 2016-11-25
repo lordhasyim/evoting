@@ -18,13 +18,35 @@
                 </div>
 
                 <div class="panel-body">
+                    <p align="right">
+                        <?php echo anchor('section', 'Kembali', "class='btn btn-default'")?>
+                    </p>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <p align="right">
-                                <?php echo anchor('section', 'Kembali', "class='btn btn-default'")?>
-                            </p>
+                        <div class="col-lg-4">
                             <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Hasil <?php echo $section->title; ?>
+                                        </div>
+                                        <div class="panel-body">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Hasil <?php echo $section->title; ?>
+                                        </div>
+                                        <div class="panel-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- /.row -->
@@ -47,7 +69,7 @@
                 type: 'pie'
             },
             title: {
-                text: 'Hasil Pemilihan'
+                text: 'Hasil Pemilihan <?php echo $section->title ?>'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
