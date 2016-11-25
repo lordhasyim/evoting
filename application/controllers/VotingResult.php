@@ -19,7 +19,7 @@ class VotingResult extends CI_Controller
         $row = $this->db->get_where('section',
             ['section_id' => $section_id, 'event_id' => $this->config->item('default_event_id')])->row();
 
-        if($row === null)
+        if ($row === null)
             redirect('/', 'refresh');
 
         $data['section_id'] = $section_id;
@@ -37,7 +37,7 @@ GROUP BY v.candidate_id")->result_array();
 
         foreach ($query as $item) {
             $graph[] = [
-                'name' =>$item['graph_name'],
+                'name' => $item['graph_name'],
                 'y' => $item['voter_total'] / $num_rows
             ];
         }
@@ -49,17 +49,18 @@ GROUP BY v.candidate_id")->result_array();
         //sidebar
         $this->load->view('admin/themes/sidebar');
         //candidate index content
-        $this->load->view('voting-result/index',$data);
+        $this->load->view('voting-result/index', $data);
         //footer
         $this->load->view('admin/themes/footer');
     }
 
-    public function data($section_id){
+    public function data($section_id)
+    {
 
         $row = $this->db->get_where('section',
             ['section_id' => $section_id, 'event_id' => $this->config->item('default_event_id')])->row();
 
-        if($row === null)
+        if ($row === null)
             redirect('/', 'refresh');
 
         $query = $this->db->query("select IFNULL(c.name,'Golput') as graph_name, c.*,  count(IFNULL(v.candidate_id,0)) as voter from `voting` v
@@ -73,12 +74,12 @@ GROUP BY v.candidate_id")->result_array();
 
         foreach ($query as $item) {
             $graph[] = [
-                'name' =>$item['graph_name'],
+                'name' => $item['graph_name'],
                 'y' => $item['voter'] / $num_rows
             ];
         }
 
-        echo  json_encode($graph);
+        echo json_encode($graph);
     }
 
 }
