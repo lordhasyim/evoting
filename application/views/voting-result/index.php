@@ -78,22 +78,22 @@
                                         <div class="col-lg-4 rwrapper">
                                     <?php }?>
                                         <div class="rlisting">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa |
-                                                    Hasil <?php echo $section->title; ?>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="col-md-12 nopad">
-                                                        <img src="<?php echo base_url('assets/uploads/files/'.$item['picture']) ; ?>"
-                                                             class="img-responsive" height="250" width="250">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa |
+                                                        Hasil <?php echo $section->title; ?>
                                                     </div>
-                                                    <div class="col-md-12 nopad">
-                                                        <h1 class="text-center text-danger"><?php echo $item['percentage']*100 ?>%</h1>
-                                                        <h1 class="text-center text-danger"><?php echo $item['voter_total'] ?></h1>
+                                                    <div class="panel-body">
+                                                        <div class="col-md-12 nopad">
+                                                            <img src="<?php echo base_url('assets/uploads/files/'.$item['picture']) ; ?>"
+                                                                 class="img-responsive" height="250" width="250">
+                                                        </div>
+                                                        <div class="col-md-12 nopad">
+                                                            <h1 class="text-center text-danger"><?php echo $item['percentage']*100 ?>%</h1>
+                                                            <h1 class="text-center text-danger"><?php echo $item['voter_total'] ?></h1>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
