@@ -43,7 +43,7 @@ class Vote extends CI_Controller
                 ->where('voting.status', false)
                 ->where('voting.voter_id', $voter_id)
                 ->where('voting.booth_id', $booth_id)
-                ->order_by('voting.date_created', 'asc')
+                ->order_by('voting.voting_id', 'asc')
                 ->limit(1)->get()->row();
 
             if(!isset($voting)) {
@@ -57,6 +57,7 @@ class Vote extends CI_Controller
                 ->join('candidate','candidate.section_id = section.section_id')
                 ->where('voting.voting_id', $voting->voting_id)
                 ->where('voting.status', $voting->status)
+                ->order_by('voting.voting_id')
                 ->get()
                 ->result();
         }
@@ -71,6 +72,7 @@ class Vote extends CI_Controller
         if($voting === null) {
             $this->session->set_flashdata('message', 'data tidak ditemukan');
             $this->load->view('vote/waiting');
+            return false;
         }
 
         $this->db->set('candidate_id', $candidate_id);
@@ -79,33 +81,24 @@ class Vote extends CI_Controller
         $this->db->where('voting_id', $voting_id);
         $this->db->update('voting');
 
-        if($this->db->affected_rows() > 0) {
 
-            $voter = $this->db
-                ->from('voting')
-                ->where('voting.voting_id =', $voting_id)->get()->row();
+        $data = $this->db
+            ->from('voting')
+            ->where('voting.status', false)
+            ->where('voting.voter_id', $voting->voter_id)
+            ->where('voting.booth_id',  $this->session->userdata('booth_id'))
+            ->order_by('voting.voting_id', 'asc')
+            ->limit(1)->get()->row();
 
-            $data = $this->db
-                ->from('voting')
-                ->where('voting.status', false)
-                ->where('voting.voting_id !=', $voting_id)
-                ->order_by('voting.date_created', 'asc')
-                ->limit(1)->get()->row();
-
-            if(!isset($data)) {
-                $this->db->set('status','done');
-                $this->db->where('status','process');
-                $this->db->where('voter_id',$voter->voter_id);
-                $this->db->update('voter');
-
-                redirect('vote-waiting', 'refresh');
-            }
-
-            redirect('section-vote/'.$data->voter_id,'refresh');
-        } else {
-            $this->session->set_flashdata('message', 'update data gagal');
-            redirect('vote-waiting', 'refresh');
+        if(!isset($data)) {
+            $this->db->set('status','done');
+//                $this->db->where('status','process');
+            $this->db->where('voter_id',$voting->voter_id);
+            $this->db->update('voter');
+            $this->load->view('vote/waiting');
         }
+
+        redirect('section-vote/'.$voting->voter_id,'refresh');
     }
 
     public function waiting() {
