@@ -84,7 +84,7 @@
         }
 
         check();
-//        countDown();
+        countDown();
 
     });
 
