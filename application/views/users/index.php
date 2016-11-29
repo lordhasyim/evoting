@@ -44,15 +44,17 @@
 										<td><?php echo htmlspecialchars($user->first_name,ENT_QUOTES,'UTF-8');?></td>
 										<td><?php echo htmlspecialchars($user->last_name,ENT_QUOTES,'UTF-8');?></td>
 										<td>
-											<?php foreach ($user->groups as $group):?>
-												<?php $groups[] = $group->name;  ?>
-												<?php if($this->config->item('admin_group', 'ion_auth') == $group->name) :?>
-													<?php echo htmlspecialchars($group->name,ENT_QUOTES,'UTF-8')?>
-												<?php else: ?>
-													<button class="btn btn-default"> <?php echo htmlspecialchars($group->name,ENT_QUOTES,'UTF-8') ?>
-													</button>
-												<?php endif; ?>
-											<?php endforeach?>
+
+											<?php echo htmlspecialchars($user->groups{0}->name,ENT_QUOTES,'UTF-8'); ?>
+<!--											--><?php //foreach ($user->groups as $group):?>
+<!--												--><?php //$groups[] = $group->name;  ?>
+<!--												--><?php //if($this->config->item('admin_group', 'ion_auth') == $group->name) :?>
+<!--													--><?php //echo htmlspecialchars($group->name,ENT_QUOTES,'UTF-8'); ?>
+<!--												--><?php //else: ?>
+<!--													<button class="btn btn-default"> --><?php //echo htmlspecialchars($group->name,ENT_QUOTES,'UTF-8') ?>
+<!--													</button>-->
+<!--												--><?php //endif; ?>
+<!--											--><?php //endforeach?>
 										</td>
 										<td>
 

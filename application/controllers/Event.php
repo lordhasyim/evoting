@@ -23,12 +23,13 @@ class Event extends CI_Controller
             ->where('user_id', $this->session->userdata('user_id'))
             ->order_by('date_created', 'asc')
             ->set_subject('Daftar Event')
-            ->columns('date_created','name','status')
-            ->add_fields('user_id','name')
-            ->edit_fields('user_id','name','status')
+            ->columns('date_created','name','timer','status')
+            ->add_fields('user_id','name','timer')
+            ->edit_fields('user_id','name','timer','status')
             ->field_type('user_id', 'hidden', $this->session->userdata('user_id'))
             ->display_as('date_created','Tanggal')
             ->display_as('name','Nama Event')
+            ->display_as('timer','Waktu Tunggu (s)')
             ->unset_texteditor('name')
             ->required_fields('user_id','name')
             ->callback_before_update(array($this,'set_inactive'))
@@ -56,6 +57,9 @@ class Event extends CI_Controller
         if($post_array['status'] == true) {
             $this->db->set('status', false);
             $this->db->update('event');
+        } else {
+            $post_array['status'] = true;
         }
+        return $post_array;
     }
 }

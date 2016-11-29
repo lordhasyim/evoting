@@ -13,6 +13,9 @@ class Dashboard extends CI_Controller {
         $user = $this->ion_auth->user()->row();
         $this->logged_in_name = $user->first_name;
 
+        if($this->ion_auth->in_group('wadek'))
+            redirect('voting-result');
+
     }
 
     // log the user in
@@ -28,7 +31,7 @@ GROUP BY status")->result_array();
         $graph = [];
         foreach ($query as $item) {
             $graph[] = [
-                'name' => $this->status_column($item['status']),
+                'name' => $this->status_column($item['status'])." (".$item['total'].")",
                 'y' => $item['total'] / $num_rows
             ];
         }
@@ -36,6 +39,10 @@ GROUP BY status")->result_array();
 
         $username = $this->ion_auth->user()->row();
         $data['username'] = $username;
+
+
+        $data['booths'] = $this->db->get_where('booth', ['event_id' => $this->config->item('default_event_id'), 'status' => true])->result();
+
 
         $this->load->view('admin/themes/header');
         //nav, top menu
@@ -60,5 +67,64 @@ GROUP BY status")->result_array();
             case 'done' :
                 return 'Telah Memilih';
         }
+    }
+
+    public function booth($boothId)
+    {
+        $data = $this->db
+            ->from('voting')
+            ->join('voter','voter.voter_id = voting.voter_id')
+            ->where('voting.booth_id', $boothId)
+            ->where('voting.status', false)
+            ->limit(1)
+            ->get()->row_array();
+
+        echo json_encode($data);
+
+    }
+
+    public function graph()
+    {
+        $query = $this->db->query("SELECT status, COUNT(*) as total FROM voter WHERE event_id = " . $this->config->item('default_event_id') . "
+GROUP BY status")->result_array();
+
+        $num_rows = $this->db->get_where('voter', ['event_id' => $this->config->item('default_event_id')])->num_rows();
+
+        foreach ($query as $item) {
+            $graph[] = [
+                'name' => $this->status_column($item['status'])." (".$item['total'].")",
+                'y' => $item['total'] / $num_rows
+            ];
+        }
+        echo json_encode($graph);
+    }
+
+    public function voterPercentage()
+    {
+
+        $query = $this->db->query("SELECT status, COUNT(*) as total FROM voter WHERE event_id = ".$this->config->item('default_event_id')."
+GROUP BY status")->result_array();
+
+
+        $num_rows = $this->db->get_where('voter', ['event_id' => $this->config->item('default_event_id')])->num_rows();
+
+        $graph = [];
+        foreach ($query as $item) {
+            $graph[] = [
+                'name' => $this->status_column($item['status'])." (".$item['total'].")",
+                'y' => $item['total'] / $num_rows
+            ];
+        }
+        $data['graph'] = json_encode($graph);
+
+        $username = $this->ion_auth->user()->row();
+        $data['username'] = $username;
+
+
+        $data['booths'] = $this->db->get_where('booth', ['event_id' => $this->config->item('default_event_id'), 'status' => true])->result();
+
+        $this->load->view('admin/themes/header');
+        $this->load->view('voter-percentage/index', $data);
+
     }
 }

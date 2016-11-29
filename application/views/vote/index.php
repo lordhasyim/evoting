@@ -12,17 +12,24 @@
 <body>
 <div class="margin-base-vertical">
     <div class="container">
+
         <div class="col-md-12">
-            <div class="col-md-2 text-center">
-                <img src="<?php echo base_url('assets/img/logo_ftp.png') ; ?>" class="img-cirle" height="100px" width="100px" alt="">
+            <div class="col-md-2">
+                <img src="<?php echo base_url('assets/img/logo_ftp.png') ; ?>" class="img-cirle" height="100" width="100" alt="">
+
             </div>
-            <div class="col-md-8">
-                <h1 class="text-center">Pemilihan Calon Ketua DPM</h1>
-                <h3 class="text-center">Fakultas Teknologi Pertanian Universitas Brawijaya </h3>
+            <div class="col-md-6">
+                <h1 class="text-center"><?php echo $data->event_name ?></h1>
+
             </div>
-            <div class="col-md-2 text-center">
-                <img src="<?php echo base_url('assets/img/logo_ftp.png') ; ?>" class="img-cirle" height="100px" width="100px" alt="">
+            <div class="col-md-2">
+                <img src="<?php echo base_url('assets/img/logo_ftp.png') ; ?>" class="img-cirle" height="100" width="100" alt="">
             </div>
+            <div class="col-md-2 pull-right">
+
+                <h2 class="text-danger">waktu <span id="counter" ></span></h2>
+            </div>
+
         </div>
     </div>
     <div class="margin-base-vertical">
@@ -51,7 +58,6 @@
     $(document).ready(function() {
         $('#enter').focus();
 
-
         function check() {
             $.getJSON( "<?php echo base_url("vote/check"); ?>", function( data ) {
                 if(data.status == false)
@@ -60,7 +66,31 @@
 
             setTimeout(check, 2000);
         }
+
+        function countDown(){
+            var seconds = <?php echo $data->event_timer; ?>;
+
+            function tick(){
+                var counter = document.getElementById("counter");
+                seconds--;
+                counter.innerHTML= "0:"+ (seconds < 10 ? "0" : "")+String(seconds);
+                if (seconds > 0) {
+                    setTimeout(tick, 1000);
+                } else {
+                    window.location = "<?php echo base_url('section-vote/'.$data->voter_id) ; ?>";
+                }
+            }
+            tick();
+        }
+
         check();
+        countDown();
+
+    });
+
+
+    $(document).bind("contextmenu",function(e) {
+        e.preventDefault();
     });
 </script>
 </body>

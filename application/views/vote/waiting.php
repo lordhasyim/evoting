@@ -11,23 +11,9 @@
 </head>
 <body>
 <div class="margin-base-vertical">
-    <div class="container">
-        <div class="col-md-12">
-            <div class="col-md-2 text-center">
-                <img src="<?php echo base_url('assets/img/logo_ftp.png') ; ?>" class="img-cirle" height="100px" width="100px" alt="">
-            </div>
-            <div class="col-md-8">
-                <h1 class="text-center">Pemilihan Calon Ketua DPM</h1>
-                <h3 class="text-center">Fakultas Teknologi Pertanian Universitas Brawijaya </h3>
-            </div>
-            <div class="col-md-2 text-center">
-                <img src="<?php echo base_url('assets/img/logo_ftp.png') ; ?>" class="img-cirle" height="100px" width="100px" alt="">
-            </div>
-        </div>
-    </div>
     <div class="margin-base-vertical">
         <div class="container">
-            <h1 class="text-center">Terima kasih</h1>
+            <h1 class="text-center" style="padding-top: 250px; font-size: 100px;">Terima kasih</h1>
         </div>
     </div>
 </div>
@@ -48,6 +34,11 @@
         }
         check();
     });
+
+    $(document).bind("contextmenu",function(e) {
+        e.preventDefault();
+    });
+
 </script>
 </body>
 </html>
