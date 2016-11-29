@@ -92,7 +92,6 @@ class Vote extends CI_Controller
                 ->order_by('voting.date_created', 'asc')
                 ->limit(1)->get()->row();
 
-
             if(!isset($data)) {
                 $this->db->set('status','done');
                 $this->db->where('status','process');
@@ -137,10 +136,10 @@ class Vote extends CI_Controller
                 ->where('voting.status', false)
                 ->where('voting.booth_id', $booth_id)
                 ->order_by('voting.date_created', 'asc')
-                ->limit(1)->get()->row();
+                ->get()->num_rows();
         }
 
-        if($data === null) {
+        if($data < 1) {
             echo json_encode(['status' => false]);
         } else {
             echo json_encode(['status' => true]);

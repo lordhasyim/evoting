@@ -59,7 +59,7 @@
         $('#enter').focus();
 
         function check() {
-            $.getJSON( "<?php echo base_url("vote/check"); ?>", function( data ) {
+            $.getJSON( "<?php echo base_url("Vote/check"); ?>", function( data ) {
                 if(data.status == false)
                     window.location = "<?php echo base_url('vote-waiting') ; ?>";
             });
@@ -84,7 +84,7 @@
         }
 
         check();
-        countDown();
+//        countDown();
 
     });
 
