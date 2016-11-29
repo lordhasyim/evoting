@@ -1,34 +1,40 @@
 <script src="<?php echo base_url('assets/chart/highcharts.js') ; ?>"></script>
 <script src="<?php echo base_url('assets/chart/exporting.js') ; ?>"></script>
+<!--<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>-->
 
-    <!-- /.row -->
-    <div class="row">
+<body  oncontextmenu="return false;">
+    <div class="container-fluid">
         <div class="col-lg-12">
-            <!-- /.panel -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i> SiMiLa | Prosentase pemilih yang telah menggunakan hak pilihnya
+            <div class="row">
+                <div class="col-lg-5">
+                    <h2 class="text-center">Prosentase Pemilih</h2>
+                    <div id="container" style="min-width: 310px; height: 600px; max-width: 900px; margin: 0 auto"></div>
                 </div>
+                <div class="col-lg-7">
+                    <h2 class="text-center">Counter</h2>
+                    <h3 class="text-center">Antrian Pemlih di dalam Bilik</h3>
 
-                <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div id="container" style="min-width: 410px; height: 600px; max-width: 600px; margin: 0 auto"></div>
-
-                        </div>
+                        <?php foreach($booths as $booth):?>
+                            <div class="col-lg-6" style="margin-top: 30px;">
+                                <div class="panel panel-default text-center">
+                                    <h1 class="text-danger"><?php echo $booth->title ?></h1>
+                                    <h2 id="booth-name-<?php echo $booth->booth_id ?>"></h2>
+                                    <h3 id="booth-identity-<?php echo $booth->booth_id ?>"></h3>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                    <!-- /.row -->
                 </div>
             </div>
-            <!-- /.panel-heading -->
-            <!-- /.panel-body -->
         </div>
-        <!-- /.panel -->
     </div>
+</body>
 
 <script>
     $(function () {
-        var chart = Highcharts.chart('container', {
+        Highcharts.chart('container', {
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
@@ -46,12 +52,9 @@
                     allowPointSelect: true,
                     cursor: 'pointer',
                     dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
-                    }
+                        enabled: false
+                    },
+                    showInLegend: true
                 }
             },
             series: [{
@@ -62,17 +65,27 @@
             }]
         });
 
-
-        function getData() {
-            $.getJSON( "<?php echo base_url("voter-percentage/data"); ?>", function( data ) {
-                chart.series[0].setData(data);
-            });
-
-            setTimeout(getData, 2000);
-        }
-        getData();
     });
 
+    setInterval(function() {
+        $.getJSON( "<?php echo base_url("dashboard/graph"); ?>", function( data ) {
+            var chart = $('#container').highcharts();
+            chart.series[0].setData(data, false);
+            chart.redraw();
+        });
 
+    }, 300000);
+
+
+    <?php foreach($booths as $booth):?>
+    setInterval(function() {
+        $.getJSON( "<?php echo base_url("dashboard/booth/".$booth->booth_id); ?>", function( data ) {
+            if(data.name) {
+                $("#booth-name-<?php echo $booth->booth_id ?>").html(data.name);
+                $("#booth-identity-<?php echo $booth->booth_id ?>").html(data.identity);
+            }
+        });
+
+    }, 3000);
+    <?php endforeach; ?>
 </script>
-

@@ -48,13 +48,13 @@
                             <div class="panel-heading"><h1 class="text-center"> <b> <?php echo $item->serial_number ?> </b> </h1></div>
                             <div class="panel-body">
                                 <div class="col-md-12 nopad">
-                                    <a href="<?php echo base_url('vote/'.$item->voting_id.'/'.$item->candidate_id) ; ?>" >
+                                    <a href="<?php echo base_url('vote/'.$item->voting_id.'/'.$item->candidate_id) ; ?>" onclick="confirmVote(this);return false;">
                                         <img src="<?php echo base_url('assets/uploads/files/'.$item->picture) ; ?>" class="img-responsive" height="250" width="250">
                                     </a>
                                 </div>
                                 <div class="col-md-12 nopad">
                                     <h3 class="text-center text-success"><?php echo $item->name ?></h3>
-                                    <a href="<?php echo base_url('vote/'.$data->voting_id.'/'.$item->candidate_id) ; ?>" id="enter" class="btn btn-block btn-primary" > Pilih</a>
+                                    <a href="<?php echo base_url('vote/'.$data->voting_id.'/'.$item->candidate_id) ; ?>" id="enter" class="btn btn-block btn-primary" onclick="confirmVote(this);return false;"> Pilih</a>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,16 @@
     </div>
 </div>
 
+
 <script type="text/javascript">
+
+    function confirmVote(a) {
+        var r = confirm("Apakah kamu yakin dengan pilihanmu?");
+        if (r == true) {
+            window.location = a.href;
+        }
+    }
+
     function countDown(){
         var seconds = <?php echo $data->timer; ?>;
 
@@ -91,10 +100,16 @@
 
         setTimeout(check, 2000);
     }
-//    countDown();
+    countDown();
     check();
 
+
+    $(document).bind("contextmenu",function(e) {
+        e.preventDefault();
+    });
+
 </script>
+
 <!-- jQuery -->
 <script type="text/javascript" src="<?php echo base_url("assets/bootstrap/jquery-1.10.2.js"); ?>"></script>
 <!-- Bootstrap JavaScript -->

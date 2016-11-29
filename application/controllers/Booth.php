@@ -6,9 +6,8 @@ class Booth extends CI_Controller
     {
         parent::__construct();
 
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->in_group('admin')) {
+        if (!$this->ion_auth->logged_in())
             redirect('/', 'refresh');
-        }
     }
 
     public function index()
@@ -34,7 +33,7 @@ class Booth extends CI_Controller
             ->callback_edit_field('password',array($this,'input_password_callback'))
             ->display_as('title','Nama Bilik')
             ->required_fields('event_id','title')
-            ->add_action('Counter', '', 'booth-counter','ui-icon-grip-dotted-horizontal')
+//            ->add_action('Counter', '', 'booth-counter','ui-icon-grip-dotted-horizontal')
             ->add_action('Login Sebagai Bilik', '', 'booth-login','ui-icon-grip-dotted-horizontal')
             ->unset_read()
             ->unset_print()

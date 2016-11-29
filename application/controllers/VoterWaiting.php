@@ -82,7 +82,6 @@ select *,
 
         foreach($result as $row) {
 
-
             $identity = null;
             $name = null;
             $note = null;

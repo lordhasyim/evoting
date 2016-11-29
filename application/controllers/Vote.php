@@ -17,8 +17,10 @@ class Vote extends CI_Controller
         $data = null;
         if($booth_id = $this->session->userdata('booth_id')) {
             $data = $this->db
+                ->select('event.name as event_name, event.timer as event_timer, voter.*')
                 ->from('voting')
                 ->join('voter', 'voter.voter_id = voting.voter_id')
+                ->join('event', 'event.event_id = voter.event_id')
                 ->where('voting.status', false)
                 ->where('voting.booth_id', $booth_id)
                 ->order_by('voting.date_created', 'asc')

@@ -142,17 +142,6 @@
                     <?php echo $graph ?>
                 }]
             });
-
-
-            function getData() {
-                $.getJSON("<?php echo base_url("voting-result/data/" . $section->section_id); ?>", function (data) {
-                    chart.series[0].setData(data);
-                });
-
-                setTimeout(getData, 2000);
-            }
-
-            getData();
         });
 
 

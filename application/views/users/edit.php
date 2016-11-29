@@ -69,7 +69,7 @@
 
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <?php if ($this->ion_auth->is_admin()): ?>
 
                                     <?php echo lang('edit_user_groups_heading', 'Groups', "class='col-sm-4 control-label'"); ?>
@@ -98,7 +98,7 @@
                                     <?php endforeach ?>
                                 </div>
                                 <?php endif ?>
-                            </div>
+                            </div> -->
 
 
                             <div class="form-group">
