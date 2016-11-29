@@ -65,44 +65,49 @@
     </div>
 </div>
 
+<script type="text/javascript" src="<?php echo base_url("assets/bootstrap/jquery-1.10.2.js"); ?>"></script>
 
 <script type="text/javascript">
 
-    function confirmVote(a) {
-        var r = confirm("Apakah kamu yakin dengan pilihanmu?");
-        if (r == true) {
-            window.location = a.href;
-        }
-    }
+    $(document).ready(function() {
 
-    function countDown(){
-        var seconds = <?php echo $data->timer; ?>;
-
-        function tick(){
-            var counter = document.getElementById("counter");
-            seconds--;
-            counter.innerHTML= "0:"+ (seconds < 10 ? "0" : "")+String(seconds);
-            if (seconds > 0) {
-                setTimeout(tick, 1000);
-            } else {
-                alert("waktu anda habis");
-                window.location = "<?php echo base_url('vote/'.$data->voting_id) ; ?>";
+        function confirmVote(a) {
+            var r = confirm("Apakah kamu yakin dengan pilihanmu?");
+            if (r == true) {
+                window.location = a.href;
             }
         }
-        tick();
-    }
 
-    function check() {
-        $.getJSON( "<?php echo base_url("vote/check"); ?>", function( data ) {
-            if(data.status == false)
-                window.location = "<?php echo base_url('vote-waiting') ; ?>";
-        });
+        function countDown(){
+            var seconds = <?php echo $data->timer; ?>;
 
-        setTimeout(check, 2000);
-    }
-    countDown();
-    check();
+            function tick(){
+                var counter = document.getElementById("counter");
+                seconds--;
+                counter.innerHTML= "0:"+ (seconds < 10 ? "0" : "")+String(seconds);
+                if (seconds > 0) {
+                    setTimeout(tick, 1000);
+                } else {
+                    alert("waktu anda habis");
+                    window.location = "<?php echo base_url('vote/'.$data->voting_id) ; ?>";
+                }
+            }
+            tick();
+        }
 
+        function check() {
+            $.getJSON( "<?php echo base_url("Vote/check"); ?>", function( data ) {
+                if(data.status == false)
+                    window.location = "<?php echo base_url('vote-waiting') ; ?>";
+            });
+
+
+            setTimeout(check, 2000);
+        }
+        countDown();
+        check();
+
+    });
 
     $(document).bind("contextmenu",function(e) {
         e.preventDefault();
