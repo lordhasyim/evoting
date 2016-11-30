@@ -13,25 +13,22 @@ class Event extends CI_Controller
 
     public function index()
     {
-        $data = $this->db->get_where('section', ['event_id' => $this->config->item('default_event_id')])->row();
-
-        if($data === null)
-            redirect('/', 'refresh');
 
         $this->grocery_crud
             ->set_table('event')
             ->where('user_id', $this->session->userdata('user_id'))
             ->order_by('date_created', 'asc')
             ->set_subject('Daftar Event')
-            ->columns('date_created','name','timer','status')
-            ->add_fields('user_id','name','timer')
-            ->edit_fields('user_id','name','timer','status')
+            ->columns('date_created','name','timer','status','note')
+            ->add_fields('user_id','name','timer','note')
+            ->edit_fields('user_id','name','timer','note','status')
             ->field_type('user_id', 'hidden', $this->session->userdata('user_id'))
             ->display_as('date_created','Tanggal')
             ->display_as('name','Nama Event')
-            ->display_as('timer','Waktu Tunggu (s)')
-            ->unset_texteditor('name')
-            ->required_fields('user_id','name')
+            ->display_as('timer','Opening Time (s)')
+            ->display_as('note','Keterangan')
+            ->unset_texteditor('note')
+            ->required_fields('user_id','name','timer')
             ->callback_before_update(array($this,'set_inactive'))
             ->unset_delete()
             ->unset_read()

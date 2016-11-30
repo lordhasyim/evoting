@@ -27,7 +27,9 @@
             </div>
             <div class="col-md-2 pull-right">
 
-                <h2 class="text-danger">waktu <span id="counter" ></span></h2>
+                <h5 class="text-danger text-center">waktu</h5>
+                <h6 class="text-danger text-center"><?php echo $data->title; ?> <br></h6>
+                <h3 class="text-danger text-center"><span id="counter" ></span></h3>
             </div>
 
         </div>
@@ -48,13 +50,13 @@
                             <div class="panel-heading"><h1 class="text-center"> <b> <?php echo $item->serial_number ?> </b> </h1></div>
                             <div class="panel-body">
                                 <div class="col-md-12 nopad">
-                                    <a href="<?php echo base_url('vote/'.$item->voting_id.'/'.$item->candidate_id) ; ?>" onclick="confirmVote(this);return false;">
+                                    <a href="<?php echo base_url('vote/'.$data->voting_id.'/'.$item->candidate_id) ; ?>" onClick="return confirmVote();">
                                         <img src="<?php echo base_url('assets/uploads/files/'.$item->picture) ; ?>" class="img-responsive" height="250" width="250">
                                     </a>
                                 </div>
                                 <div class="col-md-12 nopad">
                                     <h3 class="text-center text-success"><?php echo $item->name ?></h3>
-                                    <a href="<?php echo base_url('vote/'.$data->voting_id.'/'.$item->candidate_id) ; ?>" id="enter" class="btn btn-block btn-primary" onclick="confirmVote(this);return false;"> Pilih</a>
+                                    <a href="<?php echo base_url('vote/'.$data->voting_id.'/'.$item->candidate_id) ; ?>" id="enter" class="btn btn-block btn-primary" onclick="confirmVote(this);"> Pilih</a>
                                 </div>
                             </div>
                         </div>
@@ -69,14 +71,12 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function() {
 
-        function confirmVote(a) {
-            var r = confirm("Apakah kamu yakin dengan pilihanmu?");
-            if (r == true) {
-                window.location = a.href;
-            }
-        }
+    function confirmVote() {
+        return confirm('Apakah kamu yakin dengan pilihanmu?');
+    }
+
+    $(document).ready(function() {
 
         function countDown(){
             var seconds = <?php echo $data->timer; ?>;
@@ -88,7 +88,6 @@
                 if (seconds > 0) {
                     setTimeout(tick, 1000);
                 } else {
-                    alert("waktu anda habis");
                     window.location = "<?php echo base_url('vote/'.$data->voting_id) ; ?>";
                 }
             }
@@ -104,14 +103,15 @@
 
             setTimeout(check, 2000);
         }
-        countDown();
+
+//        countDown();
         check();
 
     });
 
-    $(document).bind("contextmenu",function(e) {
-        e.preventDefault();
-    });
+//    $(document).bind("contextmenu",function(e) {
+//        e.preventDefault();
+//    });
 
 </script>
 

@@ -32,7 +32,7 @@
 										<th><?php echo lang('index_fname_th');?></th>
 										<th><?php echo lang('index_lname_th');?></th>
 										<th><?php echo lang('index_groups_th');?></th>
-										<th><?php echo lang('index_status_th');?></th>
+<!--										<th>--><?php //echo lang('index_status_th');?><!--</th>-->
 										<th><?php echo lang('index_action_th');?></th>
 									</tr>
 								</thead>
@@ -56,14 +56,14 @@
 <!--												--><?php //endif; ?>
 <!--											--><?php //endforeach?>
 										</td>
-										<td>
-
-											<?php if(!in_array($this->config->item('admin_group', 'ion_auth'),$groups)) :?>
-												<?php echo ($user->active) ? anchor("users/deactivate/".$user->id, lang('index_active_link'),
-													"class='btn btn-link'") : anchor("users/activate/". $user->id, lang('index_inactive_link'));?>
-											<?php endif; ?>
-
-										</td>
+<!--										<td>-->
+<!---->
+<!--											--><?php //if(!in_array($this->config->item('admin_group', 'ion_auth'),$groups)) :?>
+<!--												--><?php //echo ($user->active) ? anchor("users/deactivate/".$user->id, lang('index_active_link'),
+//													"class='btn btn-link'") : anchor("users/activate/". $user->id, lang('index_inactive_link'));?>
+<!--											--><?php //endif; ?>
+<!---->
+<!--										</td>-->
 										<td><?php echo anchor("users/edit/".$user->id, 'Edit', "class='btn btn-warning'") ;?></td>
 									</tr>
 								<?php endforeach;?>

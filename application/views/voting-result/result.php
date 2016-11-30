@@ -46,14 +46,14 @@
                 type: 'column'
             },
             title: {
-                text: '<?php echo $data[0]['section']['title'] ?>'
+                text: '<?php echo $data[1]['section']['title'] ?>'
             },
             xAxis: {
                 type: 'category'
             },
             yAxis: {
                 title: {
-                    text: 'Total percent market share'
+                    text: 'Total prosentase pemilih'
                 }
 
             },
@@ -65,7 +65,7 @@
                     borderWidth: 0,
                     dataLabels: {
                         enabled: true,
-                        format: '{point.y}%'
+                        format: '{point.y:.2f}%'
                     }
                 }
             },
@@ -97,7 +97,7 @@
                 text: '<?php echo $data[0]['section']['title'] ?>'
             },
             tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
             },
             plotOptions: {
                 pie: {
@@ -127,12 +127,15 @@
                 <div class="col-lg-6">
                     <h2 class="text-center"><?php echo $data[1]['section']['title'] ?></h2>
                     <?php
-                    $i = 1;
-                    foreach($data[1]['data'] as $item): ?>
-                    <h2><?php echo $i.". ".$item['graph_name']." (".$item['voter_total'].")"."/".$item['percentage']*100 ."%" ?></h2>
-                    <?php
-                    $i++;
-                    endforeach; ?>
+                    if($data[1]['data']):
+                        $i = 1;
+                        foreach($data[1]['data'] as $item): ?>
+                        <h3><?php echo $i.". ".$item['graph_name']." (".$item['voter_total'].")"."/".$item['percentage']*100 ."%" ?></h3>
+                        <?php
+                        $i++;
+                        endforeach;
+                    endif;
+                    ?>
                 </div>
             </div>
         </div>
@@ -144,27 +147,58 @@
                     <div id="hasil_bem"></div>
                 </div>
 
+                    <h2 class="text-center"><?php echo $data[0]['section']['title'] ?></h2>
                 <?php
-                $i = 1;
-                foreach($data[0]['data'] as $item): ?>
-                    <div class="col-lg-3">
+                if($data[0]['data']):
+                    $i = 1;
+                    foreach($data[0]['data'] as $item):
+                        if($item['candidate_id'] == NULL) {
+
+                            $abstain_percentage = $item['percentage'];
+                            $abstain_voter = $item['voter_total'];
+                            continue;
+
+                        }?>
+                        <div class="col-lg-2">
+                            <div class="rlisting">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading"><h1 class="text-center"> <b> <?php echo $item['serial_number'] ?> </b> </h1></div>
+                                    <div class="panel-body">
+                                        <div class="col-md-12 nopad">
+                                            <img src="<?php echo base_url('assets/uploads/files/'.$item['picture']) ; ?>"
+                                                 class="img-responsive" height="250" width="250">
+                                        </div>
+                                        <div class="col-md-12 nopad">
+                                            <h1 class="text-center"><?php echo $item['percentage']*100 ?>%</h1>
+                                            <h1 class="text-center"><?php echo $item['voter_total'] ?></h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                <?php endforeach;
+                ?>
+                    <div class="col-lg-2">
                         <div class="rlisting">
                             <div class="panel panel-default">
-                                <div class="panel-heading"><h1 class="text-center"> <b> <?php echo $item['serial_number'] ?> </b> </h1></div>
+                                <div class="panel-heading"><h1 class="text-center"> <b> Abstain </b> </h1></div>
                                 <div class="panel-body">
                                     <div class="col-md-12 nopad">
-                                        <img src="<?php echo base_url('assets/uploads/files/'.$item['picture']) ; ?>"
+                                        <img src="<?php echo base_url('assets/img/abstain.jpg') ; ?>"
                                              class="img-responsive" height="250" width="250">
                                     </div>
                                     <div class="col-md-12 nopad">
-                                        <h1 class="text-center text-danger"><?php echo $item['percentage']*100 ?>%</h1>
-                                        <h1 class="text-center text-danger"><?php echo $item['voter_total'] ?></h1>
+                                        <h1 class="text-center"><?php echo $abstain_percentage*100 ?>%</h1>
+                                        <h1 class="text-center"><?php echo $abstain_voter ?></h1>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <?php endforeach; ?>
+
+                <?php
+                endif;
+                ?>
             </div>
         </div>
     </div>

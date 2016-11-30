@@ -35,6 +35,10 @@
  * @since	Version 1.0.0
  * @filesource
  */
+ 
+ini_set('max_execution_time', 0);
+ini_set('memory_limit','2048M');
+
 date_default_timezone_set('Asia/Jakarta');
 /*
  *---------------------------------------------------------------

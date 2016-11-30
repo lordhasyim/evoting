@@ -75,7 +75,7 @@ class VoterWaiting extends CI_Controller
         $result = $this->db->query("
 select *,
 	(select v.`voter_id` from voting v where v.`booth_id` = b.`booth_id` and v.`status` <> true limit 1) as voter_id
-	from `booth` b where  b.`status` = true")->result();
+	from `booth` b where  b.`status` = true and event_id =".$this->config->item('default_event_id'))->result();
 
         if($result === null)
             redirect('voterwaiting', 'refresh');

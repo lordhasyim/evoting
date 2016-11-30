@@ -38,7 +38,9 @@ class Candidate extends CI_Controller
             ->unset_texteditor('motto')
 //            ->set_rules('identity', 'NIM','required|is_unique[candidate.identity]')
 //            ->set_rules('serial_number', 'No Urut','callback_serial_number_check')
-            ->required_fields('section_id','identity','name','serial_number','picture');
+            ->required_fields('section_id','identity','name','serial_number','picture')
+            ->unset_print()
+            ->unset_export();
         $output = $this->grocery_crud->render();
 
         //template from admin themes

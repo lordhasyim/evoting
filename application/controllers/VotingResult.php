@@ -87,7 +87,7 @@ GROUP BY v.candidate_id")->result_array();
     public function result()
     {
 
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->in_group('wadek')) {
+        if (!$this->ion_auth->logged_in()) {
             redirect('/', 'refresh');
         }
 
@@ -97,11 +97,12 @@ GROUP BY v.candidate_id")->result_array();
         if ($row === null)
             redirect('/', 'refresh');
 
+        $data = null;
         foreach($row as $item) {
 
             $num_rows = $this->db->get_where('voting', ['section_id' => $item['section_id'], 'status' => true])->num_rows();
 
-            $query = $this->db->query("select IFNULL(c.name,'Golput') as graph_name, c.*,  count(IFNULL(v.candidate_id,0)) as voter_total, count(IFNULL(v.candidate_id,0))/$num_rows as percentage from `voting` v
+            $query = $this->db->query("select IFNULL(c.name,'Abstain') as graph_name, c.*,  count(IFNULL(v.candidate_id,0)) as voter_total, count(IFNULL(v.candidate_id,0))/$num_rows as percentage from `voting` v
 LEFT JOIN candidate c on c.candidate_id = v.candidate_id
 WHERE v.section_id = ".$item['section_id']."
 AND v.status = true
@@ -127,5 +128,4 @@ GROUP BY v.candidate_id")->result_array();
         $this->load->view('admin/themes/header');
         $this->load->view('voting-result/result', ['data' => $data]);
     }
-
 }

@@ -50,16 +50,16 @@
 
             <?php if ($this->ion_auth->in_group(['operator'])) {?>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Data Pemilih<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Data Awal Pemilih<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="<?php echo base_url('admin/upload/excel') ?>">
-                                <i class="fa fa-table fa-fw"></i> Import Data Pemilih
+                            <a href="<?php echo base_url('ImportExcel') ?>">
+                                <i class="fa fa-table fa-fw"></i> Import Data Awal Pemilih
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('Voter') ?>">
-                                <i class="fa fa-files-o fa-fw"></i> Data Pemilih
+                                <i class="fa fa-files-o fa-fw"></i> Data Awal Pemilih
                             </a>
                         </li>
                     </ul>
@@ -78,7 +78,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Data Pemilih<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Verifikasi Pemilih<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="<?php echo base_url('VoterList') ?>">
@@ -87,12 +87,12 @@
                         </li>
                         <li>
                             <a href="<?php echo base_url('VoterWaiting') ?>">
-                                <i class="fa fa-files-o fa-fw"></i> Antrian
+                                <i class="fa fa-files-o fa-fw"></i> Antrian Pemilih
                             </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url('History') ?>">
-                                <i class="fa fa-files-o fa-fw"></i> Riwayat
+                                <i class="fa fa-files-o fa-fw"></i> Riwayat Pemilih
                             </a>
                         </li>
                     </ul>

@@ -18,17 +18,18 @@
                 <img src="<?php echo base_url('assets/img/logo_ftp.png') ; ?>" class="img-cirle" height="100" width="100" alt="">
 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <h1 class="text-center"><?php echo $data->event_name ?></h1>
 
             </div>
             <div class="col-md-2">
                 <img src="<?php echo base_url('assets/img/logo_ftp.png') ; ?>" class="img-cirle" height="100" width="100" alt="">
             </div>
-            <div class="col-md-2 pull-right">
-
-                <h2 class="text-danger">waktu <span id="counter" ></span></h2>
-            </div>
+            <h2 class="text-danger" style="display:none;">waktu <span id="counter" ></span></h2>
+<!--            <div class="col-md-2 pull-right">-->
+<!---->
+<!--                -->
+<!--            </div>-->
 
         </div>
     </div>

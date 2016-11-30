@@ -22,14 +22,13 @@ class Section extends CI_Controller
             ->set_table('section')
             ->where('event_id', $this->config->item('default_event_id'))
             ->set_subject('Daftar Lembaga Pemilihan')
-            ->columns('title','note')
-            ->fields('event_id','title','timer','note')
+            ->columns('title','timer')
+            ->fields('event_id','title','timer')
             ->field_type('event_id', 'hidden', $this->config->item('default_event_id'))
             ->display_as('title','Nama Lembaga')
             ->display_as('timer','Waktu Pemilihan (detik)')
-            ->display_as('note','Keterangan')
-            ->unset_texteditor('title','note')
-            ->required_fields('event_id','title','timer','note')
+            ->unset_texteditor('title')
+            ->required_fields('event_id','title','timer')
             ->add_action('Lihat Kandidat', '', 'Candidate/index','ui-icon-grip-dotted-horizontal')
 //            ->unset_add()
             ->unset_delete()
@@ -40,7 +39,6 @@ class Section extends CI_Controller
 
         if($this->ion_auth->is_admin()) {
             $this->grocery_crud->add_action('Lihat Detail Pemilih', '', 'VotingDetail/index','ui-icon-grip-dotted-horizontal');
-            $this->grocery_crud->add_action('Hasil Pemilihan', '', 'voting-result','ui-icon-grip-dotted-horizontal');
         }
         $output = $this->grocery_crud->render();
 

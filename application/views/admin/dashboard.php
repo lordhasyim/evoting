@@ -24,8 +24,7 @@
                                     <div id="container" style="min-width: 310px; height: 600px; max-width: 900px; margin: 0 auto"></div>
                                 </div>
                                 <div class="col-lg-7">
-                                    <h2 class="text-center">Counter</h2>
-                                    <h3 class="text-center">Antrian Pemlih di dalam Bilik</h3>
+                                    <h3 class="text-center">Antrian Pemilih di dalam Bilik</h3>
 
                                     <div class="row">
                                         <?php foreach($booths as $booth):?>
