@@ -19,8 +19,44 @@ class ImportExcel extends CI_Controller
         parent::__construct();
         $this->load->library(array('PHPExcel', 'PHPExcel/IOFactory'));
     }
+	
+	public function index() {
+		$this->grocery_crud
+            ->set_table('uploads')
+            ->where('event_id', $this->config->item('default_event_id'))
+            ->set_subject('Daftar File')
+            ->columns('date_created','file','imported','duplicate','voter')
+            ->fields('event_id','file')
+            ->field_type('event_id', 'hidden', $this->config->item('default_event_id'))
+            ->callback_after_insert(array($this,'doImportExcel'))
+            ->display_as('file','Nama File')
+            ->display_as('imported','Jumlah data ter-import')
+            ->display_as('duplicate','Data Duplicate')
+            ->display_as('voter','Jumlah Pemilih')
+            ->required_fields('event_id','file')
+            ->set_field_upload('file','assets/uploads/files')
+ //           ->add_action('Generate', '', 'ImportExcel/doImportExcel','ui-icon-grip-dotted-horizontal')
+            ->unset_read()
+            ->unset_print()
+            ->unset_edit()
+            ->unset_delete()
+            ->unset_export();
+        $output = $this->grocery_crud->render();
 
-    public function index() {
+        //template from admin
+        //header
+        $this->load->view('admin/themes/header');
+        //nav, top menu
+        $this->load->view('admin/themes/nav');
+        //sidebar
+        $this->load->view('admin/themes/sidebar');
+        //Booth index content
+        $this->load->view('upload/index',$output);
+        //footer
+        $this->load->view('admin/themes/footer');
+	}
+
+    public function backup() {
         if ($this->checkEventAuthority($this->config->item('default_event_id')) === false)
             redirect('/','refresh');
 
@@ -28,6 +64,7 @@ class ImportExcel extends CI_Controller
         $data['title'] = 'Upload Excel';
         if($this->input->post() ){
             if (isset($_FILES['filename']['size']) && ($_FILES['filename']['size'] > 0)) {
+				
                 $config['upload_path'] = './assets/uploads/';
                 $config['allowed_types'] = 'xls|xlsx|csv';
                 $config['max_size'] = '2048';
@@ -62,7 +99,7 @@ class ImportExcel extends CI_Controller
         $this->load->view('admin/themes/footer');
     }
 
-    private function checkEventAuthority($id) {
+    function checkEventAuthority($id) {
         if ($this->db->get_where('event', [
                 'event_id' => $id,
 //                'user_id' => $this->session->userdata('user_id')
@@ -77,13 +114,18 @@ class ImportExcel extends CI_Controller
      * @param $inputFileName
      * @return array
      */
-    private function doImportExcel($inputFileName) {
-
+    function doImportExcel($post_array,$primary_key) {
+		
+		$data = $this->db->get_where('uploads',['upload_id' => $primary_key])->row_array();
+		
+		$inputFileName = './assets/uploads/files/'.$data['file'];
+		
         try {
             $inputFileType  = IOFactory::identify($inputFileName);
             $objReader      = IOFactory::createReader($inputFileType);
             $objPHPExcel    = $objReader->load($inputFileName);
         } catch (Exception $e) {
+			
             die('Terjadi kesalahan '.pathinfo($inputFileName,PATHINFO_BASENAME). '": '. $e->getMessage());
         }
 
@@ -114,11 +156,11 @@ class ImportExcel extends CI_Controller
             }
 
             if ($this->db->get_where('voter', [
-                    'event_id' => $this->event_id,
+                    'event_id' => $this->config->item('default_event_id'),
                     'identity' => $rowData[0][1]
                 ])->num_rows() < 1) {
                 $data = array(
-                    "event_id"  => $this->event_id,
+                    "event_id"  => $this->config->item('default_event_id'),
                     "identity"  => $rowData[0][1],
                     "name"      => $rowData[0][3],
                     "gender"    => $gender,
@@ -134,11 +176,16 @@ class ImportExcel extends CI_Controller
                 $j++;
             }
         }
+		
+		$voter = $this->db->get_where('voter',['event_id' => $this->config->item('default_event_id')])->num_rows();
+		
+		$this->db->set('imported', $i);
+		$this->db->set('duplicate', $j);
+		$this->db->set('voter', $voter);
+		$this->db->where('upload_id', $primary_key);
+		$this->db->update('uploads');
 
-        return [
-            'success_imported' => $i,
-            'fail_imported' => $j
-        ];
+        return true;
     }
 }
 

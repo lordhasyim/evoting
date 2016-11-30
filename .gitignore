@@ -13,4 +13,3 @@ composer.phar
 application/logs/
 application/config/config.php
 application/config/database.php
-public/assets/uploads

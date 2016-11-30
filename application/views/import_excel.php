@@ -43,7 +43,7 @@
                                 <div class="form-group">
 
                                     <div class="col-sm-8">
-                                        <p><?php echo form_submit('submit', lang('edit_group_submit_btn'), ['class' => 'btn btn-success  pull-right']); ?></p>
+                                        <p><?php echo form_submit('submit', "Upload Data", ['class' => 'btn btn-success  pull-right']); ?></p>
                                     </div>
                                 </div>
 
