@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="col-md-12 nopad">
                                     <h3 class="text-center text-success"><?php echo $item->name ?></h3>
-                                    <a href="<?php echo base_url('vote/'.$data->voting_id.'/'.$item->candidate_id) ; ?>" id="enter" class="btn btn-block btn-primary" onclick="confirmVote(this);"> Pilih</a>
+                                    <a href="<?php echo base_url('vote/'.$data->voting_id.'/'.$item->candidate_id) ; ?>" id="enter" class="btn btn-block btn-primary" onclick="return confirmVote();"> Pilih</a>
                                 </div>
                             </div>
                         </div>
@@ -104,14 +104,14 @@
             setTimeout(check, 2000);
         }
 
-//        countDown();
+        countDown();
         check();
 
     });
 
-//    $(document).bind("contextmenu",function(e) {
-//        e.preventDefault();
-//    });
+    $(document).bind("contextmenu",function(e) {
+        e.preventDefault();
+    });
 
 </script>
 
