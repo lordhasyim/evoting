@@ -149,6 +149,9 @@
 
                     <h2 class="text-center"><?php echo $data[0]['section']['title'] ?></h2>
                 <?php
+
+                $abstain_percentage = 0;
+                $abstain_voter = 0;
                 if($data[0]['data']):
                     $i = 1;
                     foreach($data[0]['data'] as $item):
